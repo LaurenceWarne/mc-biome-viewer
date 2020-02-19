@@ -47,6 +47,9 @@
   :group 'mc-biome-viewer
   :type 'string)
 
+(defvar mc-biome-viewer--server-directory
+  (concat user-emacs-directory "mc-biome-viewer.jar"))
+
 (defvar mc-biome-viewer--server-port 29171)
 
 (defvar mc-biome-viewer--server-started-p nil)
@@ -75,12 +78,33 @@
         truncate-lines   t)
   (buffer-disable-undo))
 
+(defun mc-biome-viewer--start-server ()
+  "Start a mc-biome-viewer server unless one has already started."
+  (unless mc-biome-viewer--server-started
+    (start-process "mc-biome-viewer-server" nil
+		   (concat "java -jar " mc-biome-viewer--server-directory))))
+
+
+(defun mc-biome-viewer--init-offsets ()
+  "Initialize the offsets for the current mc-biome-viewer buffer."
+  (let ((width (window-text-width))
+	(height (window-text-height)))
+    ))
+
+(defun mc-biome-viewer--init-buffer ()
+  "Setup a new buffer for viewing a mc world."
+  ;; get initial from server
+  (erase-buffer)
+  (mc-biome-viewer--init-offsets)
+  )
+
 ;;;###autoload
 (defun mc-biome-viewer-view-seed (seed)
   "Show the Minecraft world with the seed specified by SEED."
   (interactive "sSeed: ")
   (switch-to-buffer "minecraft-biome-view")
-  (mc-biome-viewer-mode))
+  (mc-biome-viewer-mode)
+  (mc-biome-viewer--start-server))
 
 ;;;###autoload
 (defun mc-biome-viewer-view-save (save)
