@@ -37,8 +37,13 @@
   "view biomes in a minecraft world from withing Emacs"
   :group 'games)
 
-(defcustom mc-biome-viewer-chunks-in-camera 16
-  "No of chunks to show, the value corresponds to the x in an x*x grid."
+(defcustom mc-biome-viewer-row-chunks-in-camera 16
+  "How many rows of chunks should be shown in the camera."
+  :group 'mc-biome-viewer
+  :type 'integer)
+
+(defcustom mc-biome-viewer-column-chunks-in-camera 32
+  "How many columns of chunks should be shown in the camera."
   :group 'mc-biome-viewer
   :type 'integer)
 
@@ -61,16 +66,18 @@
 (defvar-local mc-biome-viewer--camera-origin-y 0)
 (defvar-local mc-biome-viewer--mc-profile nil)
 (defvar-local mc-biome-viewer--world-seed nil)
-(defvar-local mc-biome-viewer--buffer-start-pos nil)
+(defvar-local mc-biome-viewer--x-offset 0)
+(defvar-local mc-biome-viewer--y-offset 0)
 
 ;; Maps and modes
 
 (defvar mc-biome-viewer-mode-map
   (let ((map (make-sparse-keymap)))
     (suppress-keymap map t)
-    (define-key map "?"                       #'describe-mode)
-    (define-key map "f"                      #'describe-mode)
-    (define-key map "b"                       #'describe-mode)))
+    (define-key map "?" 'describe-mode)
+    (define-key map "f" 'describe-mode)
+    (define-key map "b" 'describe-mode)
+    map))
 
 (define-derived-mode mc-biome-viewer-mode special-mode "mc-biome-viewer"
   "A mode for showing minecraft worlds."
@@ -84,27 +91,36 @@
     (start-process "mc-biome-viewer-server" nil
 		   (concat "java -jar " mc-biome-viewer--server-directory))))
 
-
 (defun mc-biome-viewer--init-offsets ()
   "Initialize the offsets for the current mc-biome-viewer buffer."
   (let ((width (window-text-width))
 	(height (window-text-height)))
-    ))
+    (setq mc-biome-viewer--x-offset
+	  (max 0 (- (/ width 2) (/ mc-biome-viewer-column-chunks-in-camera 2))))
+    (setq mc-biome-viewer--y-offset
+	  (max 0 (- (/ height 2) (/ mc-biome-viewer-row-chunks-in-camera 2))))))
 
 (defun mc-biome-viewer--init-buffer ()
   "Setup a new buffer for viewing a mc world."
   ;; get initial from server
   (erase-buffer)
   (mc-biome-viewer--init-offsets)
-  )
+  (let ((inhibit-read-only t))
+    (dotimes (i mc-biome-viewer--y-offset nil)
+      (insert "\n"))
+    (dotimes (i mc-biome-viewer-row-chunks-in-camera nil)
+      (dotimes (j mc-biome-viewer--x-offset nil) (insert " "))
+      ; Do a dictionary lookup here instead
+      (dotimes (j mc-biome-viewer-column-chunks-in-camera nil) (insert "#"))
+      (insert "\n"))))
 
 ;;;###autoload
 (defun mc-biome-viewer-view-seed (seed)
   "Show the Minecraft world with the seed specified by SEED."
   (interactive "sSeed: ")
-  (switch-to-buffer "minecraft-biome-view")
+  (switch-to-buffer "minecraft biome viewer")
   (mc-biome-viewer-mode)
-  (mc-biome-viewer--start-server))
+  (mc-biome-viewer--init-buffer))
 
 ;;;###autoload
 (defun mc-biome-viewer-view-save (save)
