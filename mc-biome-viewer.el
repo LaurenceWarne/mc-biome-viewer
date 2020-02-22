@@ -31,6 +31,7 @@
 ;;; Code:
 
 (require 'request)
+(require 'cl-lib)
 (require 'ht)
 
 (defgroup mc-biome-viewer nil
@@ -75,8 +76,10 @@
   (let ((map (make-sparse-keymap)))
     (suppress-keymap map t)
     (define-key map "?" 'describe-mode)
-    (define-key map "f" 'describe-mode)
-    (define-key map "b" 'describe-mode)
+    (define-key map "f" 'mc-biome-viewer--forward-x)
+    (define-key map "b" 'mc-biome-viewer--backward-x)
+    (define-key map "p" 'mc-biome-viewer--forward-y)
+    (define-key map "n" 'mc-biome-viewer--backward-y)
     map))
 
 (define-derived-mode mc-biome-viewer-mode special-mode "mc-biome-viewer"
@@ -123,6 +126,22 @@
   (switch-to-buffer "minecraft biome viewer")
   (mc-biome-viewer-mode)
   ;; get initial from server
+  (mc-biome-viewer--draw-buffer))
+
+(defun mc-biome-viewer-forward-x ()
+  (cl-incf mc-biome-viewer--camera-origin-x)
+  (mc-biome-viewer--draw-buffer))
+
+(defun mc-biome-viewer-backward-x ()
+  (cl-incf mc-biome-viewer--camera-origin-x)
+  (mc-biome-viewer--draw-buffer))
+
+(defun mc-biome-viewer-forward-y ()
+  (cl-incf mc-biome-viewer--camera-origin-y)
+  (mc-biome-viewer--draw-buffer))
+
+(defun mc-biome-viewer-backward-y ()
+  (cl-incf mc-biome-viewer--camera-origin-y)
   (mc-biome-viewer--draw-buffer))
 
 ;;;###autoload
