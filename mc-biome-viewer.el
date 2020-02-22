@@ -61,7 +61,7 @@
 
 ;; Buffer local internal variables
 
-(defvar-local mc-biome-viewer--chunk-cache nil)
+(defvar-local mc-biome-viewer--chunk-cache (ht-create))
 (defvar-local mc-biome-viewer--camera-origin-x 0)
 (defvar-local mc-biome-viewer--camera-origin-y 0)
 (defvar-local mc-biome-viewer--mc-profile nil)
@@ -100,9 +100,8 @@
     (setq mc-biome-viewer--y-offset
 	  (max 0 (- (/ height 2) (/ mc-biome-viewer-row-chunks-in-camera 2))))))
 
-(defun mc-biome-viewer--init-buffer ()
-  "Setup a new buffer for viewing a mc world."
-  ;; get initial from server
+(defun mc-biome-viewer--draw-buffer (&optional not-found-str)
+  "Draw biomes as text.  If a biome is not found insert NOT-FOUND-STR."
   (erase-buffer)
   (mc-biome-viewer--init-offsets)
   (let ((inhibit-read-only t))
@@ -110,16 +109,26 @@
       (insert "\n"))
     (dotimes (i mc-biome-viewer-row-chunks-in-camera nil)
       (dotimes (j mc-biome-viewer--x-offset nil) (insert " "))
-      ; Do a dictionary lookup here instead
-      (dotimes (j mc-biome-viewer-column-chunks-in-camera nil) (insert "#"))
+      (dotimes (j mc-biome-viewer-column-chunks-in-camera nil)
+	;; Do a dictionary lookup here instead
+	(if (ht-contains? mc-biome-viewer--chunk-cache
+	     [(+ mc-biome-viewer--camera-origin-x j)
+	      (+ mc-biome-viewer--camera-origin-y i)])
+	    (insert "Y")
+	(insert (if not-found-str (not-found-str) "#"))))
       (insert "\n"))))
+
+(defun mc-biome-viewer--init-buffer ()
+  "Setup a new buffer for viewing a mc world."
+  (switch-to-buffer "minecraft biome viewer")
+  (mc-biome-viewer-mode)
+  ;; get initial from server
+  (mc-biome-viewer--draw-buffer))
 
 ;;;###autoload
 (defun mc-biome-viewer-view-seed (seed)
   "Show the Minecraft world with the seed specified by SEED."
   (interactive "sSeed: ")
-  (switch-to-buffer "minecraft biome viewer")
-  (mc-biome-viewer-mode)
   (mc-biome-viewer--init-buffer))
 
 ;;;###autoload
