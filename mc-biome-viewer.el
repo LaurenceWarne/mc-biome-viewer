@@ -142,6 +142,17 @@
   ;; get initial from server
   (mc-biome-viewer--draw-buffer))
 
+(defun mc-biome-viewer--request-biomes-seed (seed chunk-startx chunk-starty chunk-endx chunk-endy)
+  (request
+   (concat "http://localhost:" mc-biome-viewer--server-port "biome/seed")
+   :params '(("seed" . seed) ("chunkStartX" . chunks-start-x)
+	     ("chunkStartY" . chunks-start-y) ("chunkEndY" . chunks-end-y)
+	     ("chunkEndX" . chunks-end-x))
+   :parser (lambda () (libxml-parse-xml-region (point) (point-max)))
+   :success (cl-function
+	     (lambda (&key data &allow-other-keys)
+	       (message data)))))
+
 (defun mc-biome-viewer-forward-x ()
   (cl-incf mc-biome-viewer--camera-origin-x)
   (mc-biome-viewer--draw-buffer))
