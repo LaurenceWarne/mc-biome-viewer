@@ -53,6 +53,20 @@
   :group 'mc-biome-viewer
   :type 'string)
 
+(defcustom mc-biome-viewer-biome-symbol-table
+  (let ((table (ht-create)))
+    table)
+  "A mapping from biome names to characters use to show them on the grid."
+  :group 'mc-biome-viewer
+  :type 'hash-table)
+
+(defcustom mc-biome-viewer-biome-colour-table
+  (let ((table (ht-create)))
+    table)
+  "A mapping from biome names to foreground colours use to show them on the grid."
+  :group 'mc-biome-viewer
+  :type 'hash-table)
+
 (defvar mc-biome-viewer--server-directory
   (concat user-emacs-directory "mc-biome-viewer.jar"))
 
