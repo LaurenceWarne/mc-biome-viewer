@@ -142,16 +142,18 @@
   ;; get initial from server
   (mc-biome-viewer--draw-buffer))
 
-(defun mc-biome-viewer--request-biomes-seed (seed chunk-startx chunk-starty chunk-endx chunk-endy)
+(defun mc-biome-viewer--request-biomes-seed (seed chunk-start-x chunk-start-y chunk-end-x chunk-end-y)
   (request
-   (concat "http://localhost:" mc-biome-viewer--server-port "biome/seed")
-   :params '(("seed" . seed) ("chunkStartX" . chunks-start-x)
-	     ("chunkStartY" . chunks-start-y) ("chunkEndY" . chunks-end-y)
-	     ("chunkEndX" . chunks-end-x))
+   (concat "http://localhost:"
+	   (number-to-string mc-biome-viewer--server-port)
+	   "/biome/seed")
+   :params `(("seed" . ,seed)
+	     ("chunkStartX" . ,chunk-start-x) ("chunkEndX" . ,chunk-end-x)
+	     ("chunkStartY" . ,chunk-start-y) ("chunkEndY" . ,chunk-end-y))
    :parser (lambda () (libxml-parse-xml-region (point) (point-max)))
    :success (cl-function
 	     (lambda (&key data &allow-other-keys)
-	       (message data)))))
+	       (message (format "Received %s" data))))))
 
 (defun mc-biome-viewer-forward-x ()
   (cl-incf mc-biome-viewer--camera-origin-x)
@@ -173,7 +175,9 @@
 (defun mc-biome-viewer-view-seed (seed)
   "Show the Minecraft world with the seed specified by SEED."
   (interactive "sSeed: ")
-  (mc-biome-viewer--init-buffer))
+  (mc-biome-viewer--init-buffer)
+  (message "Contacting server...")
+  (mc-biome-viewer--request-biomes-seed seed -8 -8 8 8))
 
 ;;;###autoload
 (defun mc-biome-viewer-view-save (save)
