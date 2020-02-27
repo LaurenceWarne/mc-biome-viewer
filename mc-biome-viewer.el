@@ -142,7 +142,7 @@
   ;; get initial from server
   (mc-biome-viewer--draw-buffer))
 
-(defun mc-biome-viewer--request-biomes-seed (seed chunk-start-x chunk-start-y chunk-end-x chunk-end-y)
+(defun mc-biome-viewer--request-biomes-seed (seed chunk-start-x chunk-start-y chunk-end-x chunk-end-y &optional callback)
   (request
    (concat "http://localhost:"
 	   (number-to-string mc-biome-viewer--server-port)
@@ -152,8 +152,17 @@
 	     ("chunkStartY" . ,chunk-start-y) ("chunkEndY" . ,chunk-end-y))
    :parser (lambda () (libxml-parse-xml-region (point) (point-max)))
    :success (cl-function
-	     (lambda (&key data &allow-other-keys)
-	       (message (format "Received %s" data))))))
+           (lambda (&key data &allow-other-keys)
+             (funcall callback data)))))
+
+(defun mc-biome-viewer--update-from-xml (data)
+  (cl-loop for e in (cddr data) do
+	   (let ((x (car (last (caddr e))))
+		 (y (car (last (cadddr e))))
+		 (biome (car (last (car (last e))))))
+	     (ht-set mc-biome-viewer--chunk-cache [x y] biome)))
+  (mc-biome-viewer--draw-buffer))
+
 
 (defun mc-biome-viewer-forward-x ()
   (cl-incf mc-biome-viewer--camera-origin-x)
@@ -177,7 +186,7 @@
   (interactive "sSeed: ")
   (mc-biome-viewer--init-buffer)
   (message "Contacting server...")
-  (mc-biome-viewer--request-biomes-seed seed -8 -8 8 8))
+  (mc-biome-viewer--request-biomes-seed seed -8 -8 8 8 #'mc-biome-viewer--update-from-xml))
 
 ;;;###autoload
 (defun mc-biome-viewer-view-save (save)
