@@ -1,4 +1,4 @@
-;;; mc-biome-viewer.el --- view biomes in a minecraft world from within Emacs
+;;; mc-biome-viewer.el --- view biomes in a minecraft world from within Emacs -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2020 Laurence Warne
 
@@ -119,9 +119,9 @@
 
 (defun mc-biome-viewer--draw-buffer (&optional not-found-str)
   "Draw biomes as text.  If a biome is not found insert NOT-FOUND-STR."
-  (erase-buffer)
   (mc-biome-viewer--init-offsets)
   (let ((inhibit-read-only t))
+    (erase-buffer)
     (dotimes (i mc-biome-viewer--y-offset nil)
       (insert "\n"))
     (dotimes (i mc-biome-viewer-row-chunks-in-camera nil)
@@ -129,10 +129,10 @@
       (dotimes (j mc-biome-viewer-column-chunks-in-camera nil)
 	;; Do a dictionary lookup here instead
 	(if (ht-contains? mc-biome-viewer--chunk-cache
-	     [(+ mc-biome-viewer--camera-origin-x j)
-	      (+ mc-biome-viewer--camera-origin-y i)])
+			  (vector (+ mc-biome-viewer--camera-origin-x j)
+				  (+ mc-biome-viewer--camera-origin-y i)))
 	    (insert "Y")
-	(insert (if not-found-str (not-found-str) "#"))))
+	(insert (if not-found-str not-found-str "#"))))
       (insert "\n"))))
 
 (defun mc-biome-viewer--init-buffer ()
@@ -152,16 +152,17 @@
 	     ("chunkStartY" . ,chunk-start-y) ("chunkEndY" . ,chunk-end-y))
    :parser (lambda () (libxml-parse-xml-region (point) (point-max)))
    :success (cl-function
-           (lambda (&key data &allow-other-keys)
-             (funcall callback data)))))
+	     (lambda (&key data &allow-other-keys)
+	       (funcall callback data)))))
 
 (defun mc-biome-viewer--update-from-xml (data)
+  "Update the chunk cache from XML DATA retrieved from a mc biome viewer server."
   (cl-loop for e in (cddr data) do
 	   (let ((x (car (last (caddr e))))
 		 (y (car (last (cadddr e))))
 		 (biome (car (last (car (last e))))))
-	     (ht-set mc-biome-viewer--chunk-cache [x y] biome)))
-  (mc-biome-viewer--draw-buffer))
+	     (ht-set mc-biome-viewer--chunk-cache (vector x y) biome)))
+  (mc-biome-viewer--draw-buffer "?"))
 
 
 (defun mc-biome-viewer-forward-x ()
