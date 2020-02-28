@@ -118,7 +118,7 @@
 	  (max 0 (- (/ height 2) (/ mc-biome-viewer-row-chunks-in-camera 2))))))
 
 (defun mc-biome-viewer--draw-buffer (&optional not-found-str)
-  "Draw biomes as text.  If a biome is not found insert NOT-FOUND-STR."
+  "Draw biomes as text in the current buffer.  If a biome is not found insert NOT-FOUND-STR."
   (mc-biome-viewer--init-offsets)
   (let ((inhibit-read-only t))
     (erase-buffer)
@@ -127,17 +127,17 @@
     (dotimes (i mc-biome-viewer-row-chunks-in-camera nil)
       (dotimes (j mc-biome-viewer--x-offset nil) (insert " "))
       (dotimes (j mc-biome-viewer-column-chunks-in-camera nil)
-	;; Do a dictionary lookup here instead
 	(if (ht-contains? mc-biome-viewer--chunk-cache
-			  (vector (+ mc-biome-viewer--camera-origin-x j)
-				  (+ mc-biome-viewer--camera-origin-y i)))
+			  (let ((true-y (- mc-biome-viewer-row-chunks-in-camera i)))
+			    (vector (+ mc-biome-viewer--camera-origin-x j)
+				    (+ mc-biome-viewer--camera-origin-y true-y))))
 	    (insert "Y")
-	(insert (if not-found-str not-found-str "#"))))
+	  (insert (if not-found-str not-found-str "#"))))
       (insert "\n"))))
 
 (defun mc-biome-viewer--init-buffer ()
   "Setup a new buffer for viewing a mc world."
-  (switch-to-buffer "minecraft biome viewer")
+  (switch-to-buffer "minecraft biome viewer")  ; TODO change to create buffer
   (mc-biome-viewer-mode)
   ;; get initial from server
   (mc-biome-viewer--draw-buffer))
@@ -161,7 +161,8 @@
 	   (let ((x (car (last (caddr e))))
 		 (y (car (last (cadddr e))))
 		 (biome (car (last (car (last e))))))
-	     (ht-set mc-biome-viewer--chunk-cache (vector x y) biome)))
+	     (ht-set mc-biome-viewer--chunk-cache
+		     (vector (string-to-number x) (string-to-number y)) biome)))
   (mc-biome-viewer--draw-buffer "?"))
 
 
