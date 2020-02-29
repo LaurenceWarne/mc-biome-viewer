@@ -67,6 +67,13 @@
   :group 'mc-biome-viewer
   :type 'hash-table)
 
+;; Source https://github.com/toolbox4minecraft/amidst/blob/f0229b840b8a9a47d60b558604df45b753b1387e/src/main/java/amidst/mojangapi/world/biome/Biome.java
+(defcustom mc-biome-viewer-biome-to-char-map
+  #s(hash-table test equal data ("ocean" "o" "plains" "^" "desert" "~" "extreme hills" "△" "forest" "f" "taiga" "F" "swampland" "%" "river" "=" "hell" "$" "the end" "I" "frozen ocean" "o" "frozen river" "=" "ice plains" "❆" "ice mountains" "▲" "mushroom island" "M" "mushroom island shore" "M" "beach" "." "desert hills" "△" "forest hills" "△" "taiga hills" "△" "extreme hills edge" "△" "jungle" "J" "jungle hills" "△" "jungle edge" "J" "deep ocean" "O" "stone beach" "✧" "cold beach" "." "birch forest" " " "birch forest hills" "△" "roofed forest" "T" "cold taiga" "F" "cold taiga hills" "F" "mega taiga" "⧗" "mega taiga hills" "⧗" "extreme hills+" "△" "savanna" " " "savanna plateau" " " "mesa" "#" "mesa plateau f" "#" "mesa plateau" "#" "the end - floating islands" " " "the end - medium island" " " "the end - high island" " " "the end - barren island" " " "warm ocean" "o" "lukewarm ocean" "o" "cold ocean" "o" "warm deep ocean" "O" "lukewarm deep ocean" "O" "cold deep ocean" "O" "frozen deep ocean" "O" "the void" "sunflower plains" " " "desert m" "~" "extreme hills m" "△" "flower forest" "✿" "taiga m" "F" "swampland m" "ice plains spikes" " " "jungle m" " " "jungle edge m" "J" "birch forest m" " " "birch forest hills m" " " "roofed forest m" " " "cold taiga m" "F" "mega spruce taiga" "F" "mega spruce taiga (hills)" "F" "extreme hills+ m" "△" "savanna m" " " "savanna plateau m" " " "mesa (bryce)" "#" "mesa plateau f m" "#" "mesa plateau m" "#" "bamboo jungle" "汕" "bamboo jungle hills" "汕"))
+  "A mapping from Minecraft biomes to characters used to represent them in the grid."
+  :group 'mc-biome-viewer
+  :type 'hash-table)
+
 (defvar mc-biome-viewer--server-directory
   (concat user-emacs-directory "mc-biome-viewer.jar"))
 
@@ -117,6 +124,11 @@
     (setq mc-biome-viewer--y-offset
 	  (max 0 (- (/ height 2) (/ mc-biome-viewer-row-chunks-in-camera 2))))))
 
+(defun mc-biome-viewer--draw-biome (biome-str unknown-str)
+  (if (ht-contains? mc-biome-viewer-biome-to-char-map biome-str)
+      (insert (ht-get mc-biome-viewer-biome-to-char-map biome-str))
+    (insert unknown-str)))
+
 (defun mc-biome-viewer--draw-buffer (&optional not-found-str)
   "Draw biomes as text in the current buffer.  If a biome is not found insert NOT-FOUND-STR."
   (mc-biome-viewer--init-offsets)
@@ -127,12 +139,13 @@
     (dotimes (i mc-biome-viewer-row-chunks-in-camera nil)
       (dotimes (j mc-biome-viewer--x-offset nil) (insert " "))
       (dotimes (j mc-biome-viewer-column-chunks-in-camera nil)
-	(if (ht-contains? mc-biome-viewer--chunk-cache
-			  (let ((true-y (- mc-biome-viewer-row-chunks-in-camera i)))
-			    (vector (+ mc-biome-viewer--camera-origin-x j)
-				    (+ mc-biome-viewer--camera-origin-y true-y))))
-	    (insert "Y")
-	  (insert (if not-found-str not-found-str "#"))))
+	(let* ((true-y (- mc-biome-viewer-row-chunks-in-camera i))
+	       (vec (vector (+ mc-biome-viewer--camera-origin-x j)
+			    (+ mc-biome-viewer--camera-origin-y true-y))))
+	  (if (ht-contains? mc-biome-viewer--chunk-cache vec)
+	      (let ((biome-str (ht-get mc-biome-viewer--chunk-cache vec)))
+		(mc-biome-viewer--draw-biome biome-str "?"))
+	    (insert (if not-found-str not-found-str "#")))))
       (insert "\n"))))
 
 (defun mc-biome-viewer--init-buffer ()
@@ -160,10 +173,10 @@
   (cl-loop for e in (cddr data) do
 	   (let ((x (car (last (caddr e))))
 		 (y (car (last (cadddr e))))
-		 (biome (car (last (car (last e))))))
+		 (biome (downcase (car (last (car (last e)))))))
 	     (ht-set mc-biome-viewer--chunk-cache
 		     (vector (string-to-number x) (string-to-number y)) biome)))
-  (mc-biome-viewer--draw-buffer "?"))
+  (mc-biome-viewer--draw-buffer "/"))
 
 
 (defun mc-biome-viewer-forward-x ()
@@ -188,7 +201,7 @@
   (interactive "sSeed: ")
   (mc-biome-viewer--init-buffer)
   (message "Contacting server...")
-  (mc-biome-viewer--request-biomes-seed seed -8 -8 8 8 #'mc-biome-viewer--update-from-xml))
+  (mc-biome-viewer--request-biomes-seed seed -16 -16 16 16 #'mc-biome-viewer--update-from-xml))
 
 ;;;###autoload
 (defun mc-biome-viewer-view-save (save)
