@@ -69,7 +69,7 @@
 
 ;; Source https://github.com/toolbox4minecraft/amidst/blob/f0229b840b8a9a47d60b558604df45b753b1387e/src/main/java/amidst/mojangapi/world/biome/Biome.java
 (defcustom mc-biome-viewer-biome-to-char-map
-  #s(hash-table test equal data ("ocean" "o" "plains" "^" "desert" "~" "extreme hills" "△" "forest" "f" "taiga" "F" "swampland" "%" "river" "=" "hell" "$" "the end" "I" "frozen ocean" "o" "frozen river" "=" "ice plains" "❆" "ice mountains" "▲" "mushroom island" "M" "mushroom island shore" "M" "beach" "." "desert hills" "△" "forest hills" "△" "taiga hills" "△" "extreme hills edge" "△" "jungle" "J" "jungle hills" "△" "jungle edge" "J" "deep ocean" "O" "stone beach" "✧" "cold beach" "." "birch forest" " " "birch forest hills" "△" "roofed forest" "T" "cold taiga" "F" "cold taiga hills" "F" "mega taiga" "⧗" "mega taiga hills" "⧗" "extreme hills+" "△" "savanna" " " "savanna plateau" " " "mesa" "#" "mesa plateau f" "#" "mesa plateau" "#" "the end - floating islands" " " "the end - medium island" " " "the end - high island" " " "the end - barren island" " " "warm ocean" "o" "lukewarm ocean" "o" "cold ocean" "o" "warm deep ocean" "O" "lukewarm deep ocean" "O" "cold deep ocean" "O" "frozen deep ocean" "O" "the void" "sunflower plains" " " "desert m" "~" "extreme hills m" "△" "flower forest" "✿" "taiga m" "F" "swampland m" "ice plains spikes" " " "jungle m" " " "jungle edge m" "J" "birch forest m" " " "birch forest hills m" " " "roofed forest m" " " "cold taiga m" "F" "mega spruce taiga" "F" "mega spruce taiga (hills)" "F" "extreme hills+ m" "△" "savanna m" " " "savanna plateau m" " " "mesa (bryce)" "#" "mesa plateau f m" "#" "mesa plateau m" "#" "bamboo jungle" "汕" "bamboo jungle hills" "汕"))
+  #s(hash-table test equal data ("ocean" "o" "plains" "^" "desert" "~" "extreme hills" "△" "forest" "f" "taiga" "‡" "swampland" "%" "river" "=" "hell" "$" "the end" "I" "frozen ocean" "o" "frozen river" "=" "ice plains" "❆" "ice mountains" "▲" "mushroom island" "M" "mushroom island shore" "M" "beach" "." "desert hills" "△" "forest hills" "△" "taiga hills" "△" "extreme hills edge" "△" "jungle" "J" "jungle hills" "△" "jungle edge" "J" "deep ocean" "O" "stone beach" "✧" "cold beach" "." "birch forest" " " "birch forest hills" "△" "roofed forest" "T" "cold taiga" "‡" "cold taiga hills" "‡" "mega taiga" "⧗" "mega taiga hills" "⧗" "extreme hills+" "△" "savanna" "+" "savanna plateau" "+" "mesa" "#" "mesa plateau f" "#" "mesa plateau" "#" "the end - floating islands" " " "the end - medium island" " " "the end - high island" "▢" "the end - barren island" " " "warm ocean" "o" "lukewarm ocean" "o" "cold ocean" "o" "warm deep ocean" "O" "lukewarm deep ocean" "O" "cold deep ocean" "O" "frozen deep ocean" "O" "the void" " " "sunflower plains" "⁂" "desert m" "~" "extreme hills m" "△" "flower forest" "✿" "taiga m" "‡" "swampland m" "%" "ice plains spikes" " " "jungle m" " " "jungle edge m" "J" "birch forest m" " " "birch forest hills m" " " "roofed forest m" " " "cold taiga m" "‡" "mega spruce taiga" "‡" "mega spruce taiga (hills)" "‡" "extreme hills+ m" "△" "savanna m" "+" "savanna plateau m" "+" "mesa (bryce)" "#" "mesa plateau f m" "#" "mesa plateau m" "#" "bamboo jungle" "汕" "bamboo jungle hills" "汕"))
   "A mapping from Minecraft biomes to characters used to represent them in the grid."
   :group 'mc-biome-viewer
   :type 'hash-table)
@@ -150,7 +150,7 @@
 
 (defun mc-biome-viewer--init-buffer ()
   "Setup a new buffer for viewing a mc world."
-  (switch-to-buffer "minecraft biome viewer")  ; TODO change to create buffer
+  (switch-to-buffer (generate-new-buffer-name "minecraft biome viewer"))
   (mc-biome-viewer-mode)
   ;; get initial from server
   (mc-biome-viewer--draw-buffer))
@@ -201,7 +201,10 @@
   (interactive "sSeed: ")
   (mc-biome-viewer--init-buffer)
   (message "Contacting server...")
-  (mc-biome-viewer--request-biomes-seed seed -16 -16 16 16 #'mc-biome-viewer--update-from-xml))
+  (mc-biome-viewer--request-biomes-seed seed 0 0
+					mc-biome-viewer-column-chunks-in-camera
+					mc-biome-viewer-row-chunks-in-camera
+					#'mc-biome-viewer--update-from-xml))
 
 ;;;###autoload
 (defun mc-biome-viewer-view-save (save)
