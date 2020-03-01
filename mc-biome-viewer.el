@@ -60,17 +60,16 @@
   :group 'mc-biome-viewer
   :type 'hash-table)
 
-(defcustom mc-biome-viewer-biome-colour-table
-  (let ((table (ht-create)))
-    table)
-  "A mapping from biome names to foreground colours use to show them on the grid."
+(defcustom mc-biome-viewer-biome-to-char-map
+  #s(hash-table test equal data ("ocean" "o" "plains" "^" "desert" "~" "extreme hills" "△" "forest" "f" "taiga" "‡" "swampland" "%" "river" "=" "hell" "$" "the end" "I" "frozen ocean" "o" "frozen river" "=" "ice plains" "❆" "ice mountains" "▲" "mushroom island" "M" "mushroom island shore" "M" "beach" "." "desert hills" "△" "forest hills" "△" "taiga hills" "△" "extreme hills edge" "△" "jungle" "J" "jungle hills" "△" "jungle edge" "J" "deep ocean" "O" "stone beach" "✧" "cold beach" "." "birch forest" "b" "birch forest hills" "△" "roofed forest" "T" "cold taiga" "‡" "cold taiga hills" "‡" "mega taiga" "⧗" "mega taiga hills" "⧗" "extreme hills+" "△" "savanna" "+" "savanna plateau" "+" "mesa" "#" "mesa plateau f" "#" "mesa plateau" "#" "the end - floating islands" " " "the end - medium island" " " "the end - high island" "▢" "the end - barren island" " " "warm ocean" "o" "lukewarm ocean" "o" "cold ocean" "o" "warm deep ocean" "O" "lukewarm deep ocean" "O" "cold deep ocean" "O" "frozen deep ocean" "O" "the void" " " "sunflower plains" "⁂" "desert m" "~" "extreme hills m" "△" "flower forest" "✿" "taiga m" "‡" "swampland m" "%" "ice plains spikes" "|" "jungle m" " " "jungle edge m" "J" "birch forest m" "b" "birch forest hills m" "b" "roofed forest m" "T" "cold taiga m" "‡" "mega spruce taiga" "‡" "mega spruce taiga (hills)" "‡" "extreme hills+ m" "△" "savanna m" "+" "savanna plateau m" "+" "mesa (bryce)" "#" "mesa plateau f m" "#" "mesa plateau m" "#" "bamboo jungle" "汕" "bamboo jungle hills" "汕"))
+    "A mapping from Minecraft biomes to characters used to represent them in the grid."
   :group 'mc-biome-viewer
   :type 'hash-table)
 
 ;; Source https://github.com/toolbox4minecraft/amidst/blob/f0229b840b8a9a47d60b558604df45b753b1387e/src/main/java/amidst/mojangapi/world/biome/Biome.java
-(defcustom mc-biome-viewer-biome-to-char-map
-  #s(hash-table test equal data ("ocean" "o" "plains" "^" "desert" "~" "extreme hills" "△" "forest" "f" "taiga" "‡" "swampland" "%" "river" "=" "hell" "$" "the end" "I" "frozen ocean" "o" "frozen river" "=" "ice plains" "❆" "ice mountains" "▲" "mushroom island" "M" "mushroom island shore" "M" "beach" "." "desert hills" "△" "forest hills" "△" "taiga hills" "△" "extreme hills edge" "△" "jungle" "J" "jungle hills" "△" "jungle edge" "J" "deep ocean" "O" "stone beach" "✧" "cold beach" "." "birch forest" "b" "birch forest hills" "△" "roofed forest" "T" "cold taiga" "‡" "cold taiga hills" "‡" "mega taiga" "⧗" "mega taiga hills" "⧗" "extreme hills+" "△" "savanna" "+" "savanna plateau" "+" "mesa" "#" "mesa plateau f" "#" "mesa plateau" "#" "the end - floating islands" " " "the end - medium island" " " "the end - high island" "▢" "the end - barren island" " " "warm ocean" "o" "lukewarm ocean" "o" "cold ocean" "o" "warm deep ocean" "O" "lukewarm deep ocean" "O" "cold deep ocean" "O" "frozen deep ocean" "O" "the void" " " "sunflower plains" "⁂" "desert m" "~" "extreme hills m" "△" "flower forest" "✿" "taiga m" "‡" "swampland m" "%" "ice plains spikes" "|" "jungle m" " " "jungle edge m" "J" "birch forest m" "b" "birch forest hills m" "b" "roofed forest m" "T" "cold taiga m" "‡" "mega spruce taiga" "‡" "mega spruce taiga (hills)" "‡" "extreme hills+ m" "△" "savanna m" "+" "savanna plateau m" "+" "mesa (bryce)" "#" "mesa plateau f m" "#" "mesa plateau m" "#" "bamboo jungle" "汕" "bamboo jungle hills" "汕"))
-  "A mapping from Minecraft biomes to characters used to represent them in the grid."
+(defcustom mc-biome-viewer-biome-to-face-map
+  #s(hash-table test equal data ("ocean" nil "plains" nil "desert" nil "extreme hills" nil "forest" nil "taiga" nil "swampland" nil "river" nil "hell" nil "the end" nil "frozen ocean" nil "frozen river" nil "ice plains" nil "ice mountains" nil "mushroom island" nil "mushroom island shore" nil "beach" nil "desert hills" nil "forest hills" nil "taiga hills" nil "extreme hills edge" nil "jungle" nil "jungle hills" nil "jungle edge" nil "deep ocean" nil "stone beach" nil "cold beach" nil "birch forest" nil "birch forest hills" nil "roofed forest" nil "cold taiga" nil "cold taiga hills" nil "mega taiga" nil "mega taiga hills" nil "extreme hills+" nil "savanna" nil "savanna plateau" nil "mesa" nil "mesa plateau f" nil "mesa plateau" nil "the end - floating islands" " " "the end - medium island" " " "the end - high island" nil "the end - barren island" " " "warm ocean" nil "lukewarm ocean" nil "cold ocean" nil "warm deep ocean" nil "lukewarm deep ocean" nil "cold deep ocean" nil "frozen deep ocean" nil "the void" " " "sunflower plains" nil "desert m" nil "extreme hills m" nil "flower forest" nil "taiga m" nil "swampland m" nil "ice plains spikes" nil "jungle m" " " "jungle edge m" nil "birch forest m" nil "birch forest hills m" nil "roofed forest m" nil "cold taiga m" nil "mega spruce taiga" nil "mega spruce taiga (hills)" nil "extreme hills+ m" nil "savanna m" nil "savanna plateau m" nil "mesa (bryce)" nil "mesa plateau f m" nil "mesa plateau m" nil "bamboo jungle" nil "bamboo jungle hills" nil))
+  "A mapping from biome names to faces applied to them on the grid."
   :group 'mc-biome-viewer
   :type 'hash-table)
 
@@ -125,9 +124,15 @@
 	  (max 0 (- (/ height 2) (/ mc-biome-viewer-row-chunks-in-camera 2))))))
 
 (defun mc-biome-viewer--draw-biome (biome-str unknown-str)
+  "Draw the biome specified by BIOME-STR at the current cursor position, else draw UNKNOWN-STR."
   (if (ht-contains? mc-biome-viewer-biome-to-char-map biome-str)
       (insert (ht-get mc-biome-viewer-biome-to-char-map biome-str))
-    (insert unknown-str)))
+    (insert unknown-str))
+  ;; Add overlay
+  (if (ht-contains? mc-biome-viewer-biome-to-face-map biome-str)
+      (let ((overlay (make-overlay (1- (point)) (point))))
+	(overlay-put overlay 'face
+		     (ht-get mc-biome-viewer-biome-to-face-map biome-str)))))
 
 (defun mc-biome-viewer--draw-buffer (&optional not-found-str)
   "Draw biomes as text in the current buffer.  If a biome is not found insert NOT-FOUND-STR."
@@ -182,7 +187,6 @@
 	     (ht-set mc-biome-viewer--chunk-cache
 		     (vector (string-to-number x) (string-to-number y)) biome)))
   (mc-biome-viewer--draw-buffer "/"))
-
 
 (defun mc-biome-viewer-forward-x ()
   (cl-incf mc-biome-viewer--camera-origin-x)
