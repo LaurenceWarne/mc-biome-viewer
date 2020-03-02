@@ -95,11 +95,11 @@
 (defvar mc-biome-viewer-mode-map
   (let ((map (make-sparse-keymap)))
     (suppress-keymap map t)
-    (define-key map "?" 'describe-mode)
-    (define-key map "f" 'mc-biome-viewer--forward-x)
-    (define-key map "b" 'mc-biome-viewer--backward-x)
-    (define-key map "p" 'mc-biome-viewer--forward-y)
-    (define-key map "n" 'mc-biome-viewer--backward-y)
+    (define-key map "?" #'describe-mode)
+    (define-key map "f" #'mc-biome-viewer-forward-x)
+    (define-key map "b" #'mc-biome-viewer-backward-x)
+    (define-key map "p" #'mc-biome-viewer-forward-y)
+    (define-key map "n" #'mc-biome-viewer-backward-y)
     map))
 
 (define-derived-mode mc-biome-viewer-mode special-mode "mc-biome-viewer"
@@ -189,19 +189,23 @@
   (mc-biome-viewer--draw-buffer "/"))
 
 (defun mc-biome-viewer-forward-x ()
+  (interactive)
   (cl-incf mc-biome-viewer--camera-origin-x)
   (mc-biome-viewer--draw-buffer))
 
 (defun mc-biome-viewer-backward-x ()
-  (cl-incf mc-biome-viewer--camera-origin-x)
+  (interactive)
+  (cl-decf mc-biome-viewer--camera-origin-x)
   (mc-biome-viewer--draw-buffer))
 
 (defun mc-biome-viewer-forward-y ()
+  (interactive)
   (cl-incf mc-biome-viewer--camera-origin-y)
   (mc-biome-viewer--draw-buffer))
 
 (defun mc-biome-viewer-backward-y ()
-  (cl-incf mc-biome-viewer--camera-origin-y)
+  (interactive)
+  (cl-decf mc-biome-viewer--camera-origin-y)
   (mc-biome-viewer--draw-buffer))
 
 ;;;###autoload
