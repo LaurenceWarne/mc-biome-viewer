@@ -242,8 +242,7 @@
   "Move the camera one chunk to the right."
   (interactive)
   (cl-decf mc-biome-viewer--camera-origin-x)
-    (let ((start (+ mc-biome-viewer--camera-origin-x
-		  mc-biome-viewer-column-chunks-in-camera)))
+    (let ((start mc-biome-viewer--camera-origin-x))
       (mc-biome-viewer--update-biomes :chunk-start-x (- start 2) :chunk-end-x start
 				      :callback #'mc-biome-viewer--update-from-xml))
   (mc-biome-viewer--draw-buffer))
@@ -262,8 +261,7 @@
   "Move the camera one chunk downwards."
   (interactive)
   (cl-decf mc-biome-viewer--camera-origin-y)
-  (let ((start (+ mc-biome-viewer--camera-origin-y
-		  mc-biome-viewer-row-chunks-in-camera)))
+  (let ((start mc-biome-viewer--camera-origin-y))
     (mc-biome-viewer--update-biomes :chunk-start-y (- start 2) :chunk-end-y start
 				    :callback #'mc-biome-viewer--update-from-xml))
   (mc-biome-viewer--draw-buffer))
