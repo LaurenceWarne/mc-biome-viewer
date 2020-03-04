@@ -199,17 +199,24 @@
 	     (lambda (&key data &allow-other-keys)
 	       (when callback (funcall callback data))))))
 
-(cl-defun mc-biome-viewer--update-biomes (chunk-start-x chunk-start-y chunk-end-x chunk-end-y &key (profile mc-biome-viewer-default-profile) callback)
+(cl-defun mc-biome-viewer--update-biomes
+    (&key (chunk-start-x mc-biome-viewer--camera-origin-x)
+	  (chunk-start-y mc-biome-viewer--camera-origin-y)
+	  (chunk-end-x (+ mc-biome-viewer--camera-origin-x
+			    mc-biome-viewer-column-chunks-in-camera))
+	  (chunk-end-y (+ mc-biome-viewer--camera-origin-y
+			    mc-biome-viewer-row-chunks-in-camera))
+	  (profile mc-biome-viewer-default-profile) callback)
   "Request chunks from the Minecraft world shown in the current buffer in the integral square described by CHUNK-START-X, CHUNK-START-Y, CHUNK-END-X and CHUNK-END-Y (representing chunk coordinates) from a mc-biome-server.  Call CALLBACK with the xml data."
   (if mc-biome-viewer--seed
       (mc-biome-viewer--request-biomes-seed mc-biome-viewer--seed
 					    chunk-start-x chunk-start-y
 					    chunk-end-x chunk-end-y
-					    profile callback)
+					    :profile profile :callback callback)
     (mc-biome-viewer--request-biomes-save mc-biome-viewer--save
 					  chunk-start-x chunk-start-y
 					  chunk-end-x chunk-end-y
-					  profile callback)))
+					  :profile profile :callback callback)))
 
 (defun mc-biome-viewer--update-from-xml (data)
   "Update the chunk cache from XML DATA retrieved from a mc biome viewer server."
@@ -222,23 +229,43 @@
   (mc-biome-viewer--draw-buffer "/"))
 
 (defun mc-biome-viewer-forward-x ()
+  "Move the camera one chunk to the left."
   (interactive)
   (cl-incf mc-biome-viewer--camera-origin-x)
+  (let ((start (+ mc-biome-viewer--camera-origin-x
+		  mc-biome-viewer-column-chunks-in-camera)))
+    (mc-biome-viewer--update-biomes :chunk-start-x start :chunk-end-x (+ 2 start)
+				    :callback #'mc-biome-viewer--update-from-xml))
   (mc-biome-viewer--draw-buffer))
 
 (defun mc-biome-viewer-backward-x ()
+  "Move the camera one chunk to the right."
   (interactive)
   (cl-decf mc-biome-viewer--camera-origin-x)
+    (let ((start (+ mc-biome-viewer--camera-origin-x
+		  mc-biome-viewer-column-chunks-in-camera)))
+      (mc-biome-viewer--update-biomes :chunk-start-x (- start 2) :chunk-end-x start
+				      :callback #'mc-biome-viewer--update-from-xml))
   (mc-biome-viewer--draw-buffer))
 
 (defun mc-biome-viewer-forward-y ()
+  "Move the camera one chunk upwards."
   (interactive)
   (cl-incf mc-biome-viewer--camera-origin-y)
+    (let ((start (+ mc-biome-viewer--camera-origin-y
+		  mc-biome-viewer-row-chunks-in-camera)))
+      (mc-biome-viewer--update-biomes :chunk-start-y start :chunk-end-y (+ 2 start)
+				      :callback #'mc-biome-viewer--update-from-xml))
   (mc-biome-viewer--draw-buffer))
 
 (defun mc-biome-viewer-backward-y ()
+  "Move the camera one chunk downwards."
   (interactive)
   (cl-decf mc-biome-viewer--camera-origin-y)
+  (let ((start (+ mc-biome-viewer--camera-origin-y
+		  mc-biome-viewer-row-chunks-in-camera)))
+    (mc-biome-viewer--update-biomes :chunk-start-y (- start 2) :chunk-end-y start
+				    :callback #'mc-biome-viewer--update-from-xml))
   (mc-biome-viewer--draw-buffer))
 
 ;;;###autoload
@@ -248,10 +275,8 @@
   (mc-biome-viewer--init-buffer)
   (setq mc-biome-viewer--seed seed)
   (message "Contacting server...")
-  (mc-biome-viewer--request-biomes-seed seed 0 0
-					mc-biome-viewer-column-chunks-in-camera
-					mc-biome-viewer-row-chunks-in-camera
-					:callback #'mc-biome-viewer--update-from-xml))
+  (mc-biome-viewer--update-biomes
+   :callback #'mc-biome-viewer--update-from-xml))
 
 ;;;###autoload
 (defun mc-biome-viewer-view-save (save)
