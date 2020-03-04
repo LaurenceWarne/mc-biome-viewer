@@ -182,6 +182,35 @@
 	     (lambda (&key data &allow-other-keys)
 	       (when callback (funcall callback data))))))
 
+(cl-defun mc-biome-viewer--request-biomes-save
+    (save chunk-start-x chunk-start-y chunk-end-x chunk-end-y
+	  &key (profile mc-biome-viewer-default-profile) callback)
+  "Request chunks from the Minecraft world on local storage specified by SAVE (using the specified PROFILE) in the integral square described by CHUNK-START-X, CHUNK-START-Y, CHUNK-END-X and CHUNK-END-Y (representing chunk coordinates) from a mc-biome-server.  Call CALLBACK with the xml data."
+  (request
+   (concat "http://localhost:"
+	   (number-to-string mc-biome-viewer--server-port)
+	   "/biome/seed")
+   :params `(("save" . ,save)
+	     ("chunkStartX" . ,chunk-start-x) ("chunkEndX" . ,chunk-end-x)
+	     ("chunkStartY" . ,chunk-start-y) ("chunkEndY" . ,chunk-end-y)
+	     ("profile" . ,(if profile profile mc-biome-viewer-default-profile)))
+   :parser (lambda () (libxml-parse-xml-region (point) (point-max)))
+   :success (cl-function
+	     (lambda (&key data &allow-other-keys)
+	       (when callback (funcall callback data))))))
+
+(cl-defun mc-biome-viewer--update-biomes (chunk-start-x chunk-start-y chunk-end-x chunk-end-y &key (profile mc-biome-viewer-default-profile) callback)
+  "Request chunks from the Minecraft world shown in the current buffer in the integral square described by CHUNK-START-X, CHUNK-START-Y, CHUNK-END-X and CHUNK-END-Y (representing chunk coordinates) from a mc-biome-server.  Call CALLBACK with the xml data."
+  (if mc-biome-viewer--seed
+      (mc-biome-viewer--request-biomes-seed mc-biome-viewer--seed
+					    chunk-start-x chunk-start-y
+					    chunk-end-x chunk-end-y
+					    profile callback)
+    (mc-biome-viewer--request-biomes-save mc-biome-viewer--save
+					  chunk-start-x chunk-start-y
+					  chunk-end-x chunk-end-y
+					  profile callback)))
+
 (defun mc-biome-viewer--update-from-xml (data)
   "Update the chunk cache from XML DATA retrieved from a mc biome viewer server."
   (cl-loop for e in (cddr data) do
