@@ -89,6 +89,8 @@
 (defvar-local mc-biome-viewer--world-seed nil)
 (defvar-local mc-biome-viewer--x-offset 0)
 (defvar-local mc-biome-viewer--y-offset 0)
+(defvar-local mc-biome-viewer--seed nil)
+(defvar-local mc-biome-viewer--save nil)
 
 ;; Maps and modes
 
@@ -215,6 +217,7 @@
   "Show the Minecraft world with the seed specified by SEED."
   (interactive "sSeed: ")
   (mc-biome-viewer--init-buffer)
+  (setq mc-biome-viewer--seed seed)
   (message "Contacting server...")
   (mc-biome-viewer--request-biomes-seed seed 0 0
 					mc-biome-viewer-column-chunks-in-camera
@@ -224,7 +227,10 @@
 ;;;###autoload
 (defun mc-biome-viewer-view-save (save)
   "Show the local Minecraft world with at the directory specified by SAVE."
-  (interactive "seedSave directory name: "))
+  (interactive "seedSave directory name: ")
+  (mc-biome-viewer--init-buffer
+   (setq mc-biome-viewer--save save)
+   (message "contacting server...")))
 
 
 (provide 'mc-biome-viewer)
