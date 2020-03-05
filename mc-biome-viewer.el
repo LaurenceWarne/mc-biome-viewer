@@ -65,6 +65,12 @@
   :group 'mc-biome-viewer
   :type 'boolean)
 
+(defcustom mc-biome-viewer-colour-biomes t
+  "If non-nil colour biomes in the mc-biome-viewer grid according to the value of the biome in MC-BIOME-VIEWER-BIOME-TO-FACE-MAP."
+  :group 'mc-biome-viewer
+  :type 'boolean)
+
+
 (defcustom mc-biome-viewer-biome-to-char-map
   #s(hash-table test equal data ("ocean" "o" "plains" "^" "desert" "~" "extreme hills" "△" "forest" "f" "taiga" "‡" "swampland" "%" "river" "=" "hell" "$" "the end" "I" "frozen ocean" "o" "frozen river" "=" "ice plains" "❆" "ice mountains" "▲" "mushroom island" "M" "mushroom island shore" "M" "beach" "." "desert hills" "△" "forest hills" "△" "taiga hills" "△" "extreme hills edge" "△" "jungle" "J" "jungle hills" "△" "jungle edge" "J" "deep ocean" "O" "stone beach" "✧" "cold beach" "." "birch forest" "b" "birch forest hills" "△" "roofed forest" "T" "cold taiga" "‡" "cold taiga hills" "‡" "mega taiga" "⧗" "mega taiga hills" "⧗" "extreme hills+" "△" "savanna" "+" "savanna plateau" "+" "mesa" "#" "mesa plateau f" "#" "mesa plateau" "#" "the end - floating islands" " " "the end - medium island" " " "the end - high island" "▢" "the end - barren island" " " "warm ocean" "o" "lukewarm ocean" "o" "cold ocean" "o" "warm deep ocean" "O" "lukewarm deep ocean" "O" "cold deep ocean" "O" "frozen deep ocean" "O" "the void" " " "sunflower plains" "⁂" "desert m" "~" "extreme hills m" "△" "flower forest" "✿" "taiga m" "‡" "swampland m" "%" "ice plains spikes" "|" "jungle m" " " "jungle edge m" "J" "birch forest m" "b" "birch forest hills m" "b" "roofed forest m" "T" "cold taiga m" "‡" "mega spruce taiga" "‡" "mega spruce taiga (hills)" "‡" "extreme hills+ m" "△" "savanna m" "+" "savanna plateau m" "+" "mesa (bryce)" "#" "mesa plateau f m" "#" "mesa plateau m" "#" "bamboo jungle" "汕" "bamboo jungle hills" "汕"))
     "A mapping from Minecraft biomes to characters used to represent them in the grid."
@@ -150,7 +156,8 @@
       (insert (ht-get mc-biome-viewer-biome-to-char-map biome-str))
     (insert unknown-str))
   ;; Add overlay
-  (if (ht-contains? mc-biome-viewer-biome-to-face-map biome-str)
+  (when (and mc-biome-viewer-colour-biomes
+	     (ht-contains? mc-biome-viewer-biome-to-face-map biome-str))
       (let ((overlay (make-overlay (1- (point)) (point))))
 	(overlay-put overlay 'face
 		     (ht-get mc-biome-viewer-biome-to-face-map biome-str)))))
