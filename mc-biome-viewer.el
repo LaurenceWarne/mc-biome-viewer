@@ -120,13 +120,14 @@
   "Return the biome coordinate at the cursor, or nil if the cursor does not lie on the grid."
   (let* ((row (line-number-at-pos))
 	 (column (current-column))
-	 (camera-row (- row mc-biome-viewer--x-offset))
-	 (camera-col (- column mc-biome-viewer--y-offset)))
-    (if (and (> camera-row 0) (> camera-col 0)
-	     (< camera-row mc-biome-viewer--row-chunks-in-camera)
-	     (< camera-col mc-biome-viewer--column-chunks-in-camera))
-	(vector (+ camera-row mc-biome-viewer--camera-origin-x)
-		(+ camera-col mc-biome-viewer--camera-origin-y))
+	 (camera-row (- row mc-biome-viewer--y-offset))
+	 (camera-y (- mc-biome-viewer-row-chunks-in-camera camera-row))
+	 (camera-col (- column mc-biome-viewer--x-offset)))
+    (if (and (>= camera-y 0) (>= camera-col 0)
+	     (< camera-y mc-biome-viewer-row-chunks-in-camera)
+	     (< camera-col mc-biome-viewer-column-chunks-in-camera))
+	(vector (+ camera-col mc-biome-viewer--camera-origin-x)
+		(+ camera-y mc-biome-viewer--camera-origin-y))
       nil)))
 
 (defun mc-biome-viewer--init-offsets ()
@@ -162,7 +163,7 @@
 	(dotimes (j mc-biome-viewer-column-chunks-in-camera nil)
 	  (let* ((true-y (- mc-biome-viewer-row-chunks-in-camera i))
 		 (vec (vector (+ mc-biome-viewer--camera-origin-x j)
-			      (+ mc-biome-viewer--camera-origin-y true-y))))
+			      (1- (+ mc-biome-viewer--camera-origin-y true-y)))))
 	    (if (ht-contains? mc-biome-viewer--chunk-cache vec)
 		(let ((biome-str (ht-get mc-biome-viewer--chunk-cache vec)))
 		  (mc-biome-viewer--draw-biome biome-str "?"))
@@ -179,12 +180,17 @@
   ;; get initial from server
   (mc-biome-viewer--draw-buffer))
 
-(defun mc-biome-viewer--draw-label ()
+(cl-defun mc-biome-viewer--draw-label (&key (delete nil))
   "Draw information about the biome at the cursor."
   (let* ((position (mc-biome-viewer--get-biome-coord-at-cursor))
-	 (biome (ht-get mc-biome-viewer--chunk-cache position)))
-    (insert "Biome:      " (if position biome "") "\n")
-    (insert "Coordinate: " (if position (format "%s" position) ""))))
+	 (biome (ht-get mc-biome-viewer--chunk-cache position))
+	 (inhibit-read-only t))
+    (save-excursion
+      (end-of-buffer)
+      (when delete (delete-region (progn (previous-line 1) (line-beginning-position))
+				  (progn (next-line 1) (line-end-position))))
+      (insert "Biome:      " (if position biome "") "\n")
+      (insert "Coordinate: " (if position (format "%s" position) "")))))
 
 (cl-defun mc-biome-viewer--request-biomes-seed
     (seed chunk-start-x chunk-start-y chunk-end-x chunk-end-y
