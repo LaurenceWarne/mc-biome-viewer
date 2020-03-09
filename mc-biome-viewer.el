@@ -85,7 +85,13 @@
   :type 'hash-table)
 
 (defvar mc-biome-viewer--server-directory
-  (concat user-emacs-directory "mc-biome-viewer.jar"))
+  (concat user-emacs-directory "mc-biome-viewer"))
+
+(defvar mc-biome-viewer--server-url "https://github.com/LaurenceWarne/mc-biome-map-server/releases/download/")
+
+(defvar mc-biome-viewer--server-version "v0.1")
+
+(defvar mc-biome-viewer--jar-name "mc-biome-map-server-all.jar")
 
 (defvar mc-biome-viewer--server-port 29171)
 
@@ -126,7 +132,9 @@
   "Start a mc-biome-viewer server unless one has already started."
   (unless mc-biome-viewer--server-started
     (start-process "mc-biome-viewer-server" nil
-		   (concat "java -jar " mc-biome-viewer--server-directory))))
+		   (concat "java -jar " mc-biome-viewer--server-directory "/"
+			   mc-biome-viewer--server-name))
+    (setq mc-biome-viewer--server-started t)))
 
 (defun mc-biome-viewer--get-biome-coord-at-cursor ()
   "Return the biome coordinate at the cursor, or nil if the cursor does not lie on the grid."
