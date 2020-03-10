@@ -7,7 +7,7 @@
 ;; Version: 0.1
 ;; Keywords: games
 ;; URL: https://github.com/
-;; Package-Requires: ((emacs "26") (cl-lib "0.3") (request "0.3.2") (ht "2.2"))
+;; Package-Requires: ((emacs "26") (cl-lib "0.3") (request "0.3.2") (ht "2.2") (f "0.2.0"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -30,8 +30,10 @@
 
 ;;; Code:
 
-(require 'request)
 (require 'cl-lib)
+(require 'url)
+(require 'request)
+(require 'f)
 (require 'ht)
 
 (defgroup mc-biome-viewer nil
@@ -95,7 +97,7 @@
 
 (defvar mc-biome-viewer--server-port 29171)
 
-(defvar mc-biome-viewer--server-started-p nil)
+(defvar mc-biome-viewer--server-started nil)
 
 ;; Buffer local internal variables
 
@@ -128,13 +130,26 @@
   (add-hook 'post-command-hook (lambda () (mc-biome-viewer--draw-label :delete t)) nil t)
   (buffer-disable-undo))
 
+(defun mc-biome-viewer--download-server ()
+  "Download the mc biome viewer server jar file, replacing it if it alread exists."
+  (url-copy-file (concat mc-biome-viewer--server-url
+			 mc-biome-viewer--server-version "/"
+			 mc-biome-viewer--jar-name)
+		 (concat mc-biome-viewer--server-directory "/"
+			 mc-biome-viewer--jar-name) t))
+
 (defun mc-biome-viewer--start-server ()
   "Start a mc-biome-viewer server unless one has already started."
   (unless mc-biome-viewer--server-started
-    (start-process "mc-biome-viewer-server" nil
-		   (concat "java -jar " mc-biome-viewer--server-directory "/"
-			   mc-biome-viewer--server-name))
-    (setq mc-biome-viewer--server-started t)))
+    (let ((server-location (concat mc-biome-viewer--server-directory "/"
+				   mc-biome-viewer--jar-name)))
+      (when (not (file-exists-p server-location))
+	(when (not (f-directory-p mc-biome-viewer--server-directory))
+	  (f-mkdir mc-biome-viewer--server-directory))
+	(mc-biome-viewer--download-server))
+      (start-process-shell-command "mc-biome-viewer-server" nil
+		     (concat "java -jar " server-location))
+      (setq mc-biome-viewer--server-started t))))
 
 (defun mc-biome-viewer--get-biome-coord-at-cursor ()
   "Return the biome coordinate at the cursor, or nil if the cursor does not lie on the grid."
@@ -318,6 +333,7 @@
 (defun mc-biome-viewer-view-seed (seed)
   "Show the Minecraft world with the seed specified by SEED."
   (interactive "sSeed: ")
+  (mc-biome-viewer--start-server)
   (mc-biome-viewer--init-buffer)
   (setq mc-biome-viewer--seed seed)
   (message "Contacting server...")
