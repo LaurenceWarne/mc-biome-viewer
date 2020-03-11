@@ -130,11 +130,19 @@
   (add-hook 'post-command-hook (lambda () (mc-biome-viewer--draw-label :delete t)) nil t)
   (buffer-disable-undo))
 
+(defun mc-biome-viewer--get-true-url (gh-url)
+  "Damn you Github"
+  (let ((response (request
+		   "https://github.com/LaurenceWarne/mc-biome-map-server/releases/download/v0.1/mc-biome-map-server-all.jar"
+		   :sync t)))
+    (request-response-url response)))
+
 (defun mc-biome-viewer--download-server ()
   "Download the mc biome viewer server jar file, replacing it if it alread exists."
-  (url-copy-file (concat mc-biome-viewer--server-url
-			 mc-biome-viewer--server-version "/"
-			 mc-biome-viewer--jar-name)
+  (url-copy-file (mc-biome-viewer--get-true-url
+		  (concat mc-biome-viewer--server-url
+			  mc-biome-viewer--server-version "/"
+			  mc-biome-viewer--jar-name))
 		 (concat mc-biome-viewer--server-directory "/"
 			 mc-biome-viewer--jar-name) t))
 
