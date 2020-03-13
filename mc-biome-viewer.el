@@ -233,7 +233,7 @@
       (end-of-buffer)
       (when delete (delete-region (progn (previous-line 1) (line-beginning-position))
 				  (progn (next-line 1) (line-end-position))))
-      (insert "Biome:      " (if position biome "") "\n")
+      (insert "Biome:      " (if biome biome "?") "\n")
       (insert "Coordinate: " (if position (format "%s" position) "")))))
 
 (cl-defun mc-biome-viewer--request-biomes-seed
@@ -341,6 +341,7 @@
 (defun mc-biome-viewer-view-seed (seed)
   "Show the Minecraft world with the seed specified by SEED."
   (interactive "sSeed: ")
+  (message "Starting server...")
   (mc-biome-viewer--start-server)
   (mc-biome-viewer--init-buffer)
   (setq mc-biome-viewer--seed seed)
