@@ -82,7 +82,7 @@
 ;; Source https://github.com/toolbox4minecraft/amidst/blob/f0229b840b8a9a47d60b558604df45b753b1387e/src/main/java/amidst/mojangapi/world/biome/Biome.java
 (defcustom mc-biome-viewer-biome-to-face-map
   #s(hash-table test equal data ("ocean" (:foreground "sky blue") "plains" (:foreground "light green") "desert" (:foreground "yellow") "extreme hills" (:foreground "green") "forest" (:foreground "green") "taiga" (:foreground "dark green") "swampland" (:foreground "brown") "river" (:foreground "sky blue") "hell" (:foreground "red") "the end" (:foreground "white") "frozen ocean" (:foreground "white") "frozen river" (:foreground "white") "ice plains" (:foreground "white") "ice mountains" (:foreground "white") "mushroom island" (:foreground "light pink") "mushroom island shore" (:foreground "light pink") "beach" (:foreground "gold") "desert hills" (:foreground "yellow") "forest hills" (:foreground "green") "taiga hills" (:foreground "dark green") "extreme hills edge" (:foreground "chocolate") "jungle" (:foreground "spring green") "jungle hills" (:foreground "spring green") "jungle edge" (:foreground "spring green") "deep ocean" (:foreground "dark blue") "stone beach" (:foreground "grey") "cold beach" (:foreground "white") "birch forest" (:foreground "lawn green") "birch forest hills" (:foreground "lawn green") "roofed forest" (:foreground "green") "cold taiga" (:foreground "white") "cold taiga hills" (:foreground "white") "mega taiga" (:foreground "olive") "mega taiga hills" (:foreground "olive") "extreme hills+" (:foreground "chocolate") "savanna" (:foreground "orange") "savanna plateau" (:foreground "orange") "mesa" (:foreground "red") "mesa plateau f" (:foreground "red") "mesa plateau" (:foreground "red") "the end - floating islands" (:foreground "white") "the end - medium island" (:foreground "white") "the end - high island" (:foreground "white") "the end - barren island" (:foreground "white") "warm ocean" (:foreground "cyan") "lukewarm ocean" (:foreground "cyan") "cold ocean" (:foreground "white") "warm deep ocean" (:foreground "cyan") "lukewarm deep ocean" (:foreground "cyan") "cold deep ocean" (:foreground "white") "frozen deep ocean" (:foreground "white") "the void" (:foreground "white") "sunflower plains" (:foreground "light green") "desert m" (:foreground "yellow") "extreme hills m" (:foreground "yellow") "flower forest" (:foreground "light green") "taiga m" (:foreground "dark green") "swampland m" (:foreground "brown") "ice plains spikes" (:foreground "violet") "jungle m" (:foreground "spring green") "jungle edge m" (:foreground "spring green") "birch forest m" (:foreground "lawn green") "birch forest hills m" (:foreground "lawn green") "roofed forest m" (:foreground "green") "cold taiga m" (:foreground "white") "mega spruce taiga" (:foreground "white") "mega spruce taiga (hills)" (:foreground "white") "extreme hills+ m" (:foreground "chocolate") "savanna m" (:foreground "orange") "savanna plateau m" (:foreground "orange") "mesa (bryce)" (:foreground "red") "mesa plateau f m" (:foreground "red") "mesa plateau m" (:foreground "red") "bamboo jungle" (:foreground "spring green") "bamboo jungle hills" (:foreground "spring green")))
-  "A hash table mapping biome names to faces to be applied to them on the grid. Specifically, values in this hash can be any valid value for the face property described in https://www.gnu.org/software/emacs/manual/html_node/elisp/Overlay-Properties.html#Overlay-Properties"
+   "A hash table mapping biome names to faces to be applied to them on the grid. Specifically, values in this hash can be any valid value for the face property described in https://www.gnu.org/software/emacs/manual/html_node/elisp/Overlay-Properties.html#Overlay-Properties"
   :group 'mc-biome-viewer
   :type 'hash-table)
 
@@ -228,15 +228,21 @@
 
 (cl-defun mc-biome-viewer--draw-label (&key (delete nil))
   "Draw information about the biome at the cursor."
-  (let* ((position (mc-biome-viewer--get-biome-coord-at-cursor))
-	 (biome (ht-get mc-biome-viewer--chunk-cache position))
-	 (inhibit-read-only t))
-    (save-excursion
-      (end-of-buffer)
-      (when delete (delete-region (progn (previous-line 1) (line-beginning-position))
-				  (progn (next-line 1) (line-end-position))))
+  (save-excursion
+    (let* ((position (mc-biome-viewer--get-biome-coord-at-cursor))
+	   (biome (ht-get mc-biome-viewer--chunk-cache position))
+	   (inhibit-read-only t)
+	   (region-start (progn (end-of-buffer) (previous-line 1)
+				(line-beginning-position)))
+	   (region-end (progn (next-line 1) (line-end-position))))
+      (remove-overlays region-start region-end)
+      (when delete (delete-region region-start region-end))
       (insert "Biome:      " (if biome biome "?") "\n")
-      (insert "Coordinate: " (if position (format "%s" position) "")))))
+      (when biome
+	(let ((overlay (make-overlay (- (point) (1+ (length biome))) (point))))
+	  (overlay-put overlay 'face (ht-get mc-biome-viewer-biome-to-face-map
+					     biome))))
+      (insert "Coordinate: " (if position (format "%s" position) "N/A")))))
 
 (cl-defun mc-biome-viewer--request-biomes-seed
     (seed chunk-start-x chunk-start-y chunk-end-x chunk-end-y
