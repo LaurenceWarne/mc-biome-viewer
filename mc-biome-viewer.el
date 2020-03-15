@@ -345,6 +345,11 @@
 				    :callback #'mc-biome-viewer--update-from-xml))
   (mc-biome-viewer--draw-buffer))
 
+(cl-defun continual-call (fn &key (delay 0.5) (times 5))
+  (dotimes (i times nil)
+    (sleep-for delay)
+    (funcall fn)))
+
 ;;;###autoload
 (defun mc-biome-viewer-view-seed (seed)
   "Show the Minecraft world with the seed specified by SEED.  The version used by the profile mc-biome-viewer-default-profile will be used to generate the world from the seed."
@@ -354,8 +359,9 @@
   (mc-biome-viewer--init-buffer)
   (setq mc-biome-viewer--seed seed)
   (message "Contacting server...")
-  (mc-biome-viewer--update-biomes
-   :callback #'mc-biome-viewer--update-from-xml))
+  (make-thread (lambda () (continual-call
+      (lambda () (mc-biome-viewer--update-biomes
+		  :callback #'mc-biome-viewer--update-from-xml))))))
 
 ;;;###autoload
 (defun mc-biome-viewer-view-save (save)
@@ -366,8 +372,9 @@
   (mc-biome-viewer--init-buffer)
   (setq mc-biome-viewer--save (expand-file-name save))
   (message "contacting server...")
-  (mc-biome-viewer--update-biomes
-   :callback #'mc-biome-viewer--update-from-xml))
+  (make-thread (lambda () (continual-call
+      (lambda () (mc-biome-viewer--update-biomes
+		  :callback #'mc-biome-viewer--update-from-xml))))))
 
 
 (provide 'mc-biome-viewer)
