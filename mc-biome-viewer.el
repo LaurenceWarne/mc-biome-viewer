@@ -268,7 +268,7 @@
   (request
    (concat "http://localhost:"
 	   (number-to-string mc-biome-viewer--server-port)
-	   "/biome/seed")
+	   "/biome/save")
    :params `(("save" . ,save)
 	     ("chunkStartX" . ,chunk-start-x) ("chunkEndX" . ,chunk-end-x)
 	     ("chunkStartY" . ,chunk-start-y) ("chunkEndY" . ,chunk-end-y)
@@ -347,7 +347,7 @@
 
 ;;;###autoload
 (defun mc-biome-viewer-view-seed (seed)
-  "Show the Minecraft world with the seed specified by SEED."
+  "Show the Minecraft world with the seed specified by SEED.  The version used by the profile mc-biome-viewer-default-profile will be used to generate the world from the seed."
   (interactive "sSeed: ")
   (message "Starting server...")
   (mc-biome-viewer--start-server)
@@ -359,11 +359,15 @@
 
 ;;;###autoload
 (defun mc-biome-viewer-view-save (save)
-  "Show the local Minecraft world with at the directory specified by SAVE."
-  (interactive "seedSave directory name: ")
-  (mc-biome-viewer--init-buffer
-   (setq mc-biome-viewer--save save)
-   (message "contacting server...")))
+  "Show the local Minecraft world at the directory specified by SAVE.  An example directory would be ~/.minecraft/my-profile/saves/my-world."
+  (interactive "sSave directory: ")
+  (message "Starting server...")
+  (mc-biome-viewer--start-server)
+  (mc-biome-viewer--init-buffer)
+  (setq mc-biome-viewer--save (expand-file-name save))
+  (message "contacting server...")
+  (mc-biome-viewer--update-biomes
+   :callback #'mc-biome-viewer--update-from-xml))
 
 
 (provide 'mc-biome-viewer)
