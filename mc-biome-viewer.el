@@ -219,7 +219,7 @@
 	(insert "\n")))
     (if (> prev-point 1) (goto-char prev-point) (forward-char mc-biome-viewer--x-offset))
     (when mc-biome-viewer-show-label
-      (save-excursion (end-of-buffer) (insert "\n")
+      (save-excursion (goto-char (point-max)) (insert "\n")
 		      (mc-biome-viewer--draw-label :position prev-biome)))))
 
 (defun mc-biome-viewer--init-buffer ()
@@ -235,9 +235,9 @@
   (save-excursion
     (let* ((biome (ht-get mc-biome-viewer--chunk-cache position))
 	   (inhibit-read-only t)
-	   (region-start (progn (end-of-buffer) (previous-line 1)
+	   (region-start (progn (goto-char (point-max)) (forward-line -1)
 				(line-beginning-position)))
-	   (region-end (progn (next-line 1) (line-end-position))))
+	   (region-end (progn (forward-line) (line-end-position))))
       (remove-overlays region-start region-end)
       (when delete (delete-region region-start region-end))
       (insert "Biome:      " (if biome biome "?") "\n")
