@@ -198,7 +198,9 @@
 (defun mc-biome-viewer--draw-buffer (&optional not-found-str)
   "Draw biomes as text in the current buffer.  If a biome is not found insert NOT-FOUND-STR."
   (mc-biome-viewer--init-offsets)
-  (let ((inhibit-read-only t))
+  (let ((inhibit-read-only t)
+	(prev-point (point))
+	(prev-biome (mc-biome-viewer--get-biome-coord-at-cursor)))
     (erase-buffer)
     (remove-overlays)  ; Else causes huge lag
     (dotimes (i mc-biome-viewer--y-offset nil)
@@ -214,9 +216,11 @@
 		(let ((biome-str (ht-get mc-biome-viewer--chunk-cache vec)))
 		  (mc-biome-viewer--draw-biome biome-str "?"))
 	      (insert (if not-found-str not-found-str "#")))))
-	(insert "\n"))
-      (when mc-biome-viewer-show-label (progn (insert "\n") (mc-biome-viewer--draw-label))))
-    (forward-char mc-biome-viewer--x-offset)))
+	(insert "\n")))
+    (if (> prev-point 1) (goto-char prev-point) (forward-char mc-biome-viewer--x-offset))
+    (when mc-biome-viewer-show-label
+      (save-excursion (end-of-buffer) (insert "\n")
+		      (mc-biome-viewer--draw-label :position prev-biome)))))
 
 (defun mc-biome-viewer--init-buffer ()
   "Setup a new buffer for viewing a mc world."
@@ -226,11 +230,10 @@
   ;; get initial from server
   (mc-biome-viewer--draw-buffer))
 
-(cl-defun mc-biome-viewer--draw-label (&key (delete nil))
-  "Draw information about the biome at the cursor."
+(cl-defun mc-biome-viewer--draw-label (&key delete (position (mc-biome-viewer--get-biome-coord-at-cursor)))
+  "Draw information about the biome at the cursor or a specified point."
   (save-excursion
-    (let* ((position (mc-biome-viewer--get-biome-coord-at-cursor))
-	   (biome (ht-get mc-biome-viewer--chunk-cache position))
+    (let* ((biome (ht-get mc-biome-viewer--chunk-cache position))
 	   (inhibit-read-only t)
 	   (region-start (progn (end-of-buffer) (previous-line 1)
 				(line-beginning-position)))
