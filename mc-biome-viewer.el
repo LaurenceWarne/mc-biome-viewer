@@ -92,7 +92,7 @@
 
 (defvar mc-biome-viewer--server-version "v0.1")
 
-(defvar mc-biome-viewer--jar-name "mc-biome-map-server-all.jar")
+(defvar mc-biome-viewer--jar-name "mc-biome-map-server-all")
 
 (defvar mc-biome-viewer--server-port 29171)
 
@@ -131,11 +131,14 @@
 
 ;; Internal functions
 
+(defun mc-biome-viewer--get-full-jar-name ()
+  "Get the full name of the server file, including the version and file extension."
+  (concat mc-biome-viewer--jar-name "-"
+	  mc-biome-viewer--server-version ".jar"))
+
 (defun mc-biome-viewer--get-true-url (gh-url)
-  "Damn you Github"
-  (let ((response (request
-		   "https://github.com/LaurenceWarne/mc-biome-map-server/releases/download/v0.1/mc-biome-map-server-all.jar"
-		   :sync t)))
+  "Get the raw url from the GH release file at the url GH-URL."
+  (let ((response (request gh-url :sync t)))
     (request-response-url response)))
 
 (defun mc-biome-viewer--download-server ()
@@ -143,18 +146,18 @@
   (url-copy-file (mc-biome-viewer--get-true-url
 		  (concat mc-biome-viewer--server-url
 			  mc-biome-viewer--server-version "/"
-			  mc-biome-viewer--jar-name))
+			  "mc-biome-map-server-all.jar"))
 		 (concat mc-biome-viewer--server-directory "/"
-			 mc-biome-viewer--jar-name) t))
+			 (mc-biome-viewer--get-full-jar-name)) t))
 
 (defun mc-biome-viewer--start-server ()
   "Start a mc-biome-viewer server unless one has already started."
   (unless mc-biome-viewer--server-started
     (let ((server-location (concat mc-biome-viewer--server-directory "/"
-				   mc-biome-viewer--jar-name)))
+				  (mc-biome-viewer--get-full-jar-name))))
       (when (not (file-exists-p server-location))
-	(when (not (f-directory-p mc-biome-viewer--server-directory))
-	  (f-mkdir mc-biome-viewer--server-directory))
+	(f-delete mc-biome-viewer--server-directory t)  ; Remove old versions if needed
+	(f-mkdir mc-biome-viewer--server-directory)
 	(mc-biome-viewer--download-server))
       (start-process-shell-command "mc-biome-viewer-server" nil
 		     (concat "java -jar " server-location))
