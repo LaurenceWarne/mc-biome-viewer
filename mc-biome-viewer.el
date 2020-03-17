@@ -7,7 +7,7 @@
 ;; Version: 0.1
 ;; Keywords: games
 ;; URL: https://github.com/
-;; Package-Requires: ((emacs "26") (cl-lib "0.3") (request "0.3.2") (ht "2.2") (f "0.2.0"))
+;; Package-Requires: ((emacs "26") (dash "2.17.0") (cl-lib "0.3") (request "0.3.2") (ht "2.2") (f "0.2.0"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -32,6 +32,7 @@
 
 (require 'cl-lib)
 (require 'url)
+(require 'dash)
 (require 'request)
 (require 'f)
 (require 'ht)
@@ -244,12 +245,12 @@
 	   (region-end (progn (forward-line) (line-end-position))))
       (remove-overlays region-start region-end)
       (when delete (delete-region region-start region-end))
-      (insert "Biome:      " (if biome biome "?") "\n")
+      (insert "Biome: " (if biome biome "?") "\n")
       (when biome
 	(let ((overlay (make-overlay (- (point) (1+ (length biome))) (point))))
 	  (overlay-put overlay 'face (ht-get mc-biome-viewer-biome-to-face-map
 					     biome))))
-      (insert "Coordinate: " (if position (format "%s" position) "N/A")))))
+      (insert "(x z): " (if position (format "%s" (--map (* 16 it) position)) "N/A")))))
 
 (cl-defun mc-biome-viewer--request-biomes-seed
     (seed chunk-start-x chunk-start-y chunk-end-x chunk-end-y
