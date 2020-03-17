@@ -320,6 +320,7 @@
 
 ;; Interactive functions
 
+;;;###autoload
 (defun mc-biome-viewer-forward-x ()
   "Move the camera one chunk to the left."
   (interactive)
@@ -330,6 +331,7 @@
 				    :callback #'mc-biome-viewer--update-from-xml))
   (mc-biome-viewer--draw-buffer))
 
+;;;###autoload
 (defun mc-biome-viewer-backward-x ()
   "Move the camera one chunk to the right."
   (interactive)
@@ -339,6 +341,7 @@
 				      :callback #'mc-biome-viewer--update-from-xml))
   (mc-biome-viewer--draw-buffer))
 
+;;;###autoload
 (defun mc-biome-viewer-forward-y ()
   "Move the camera one chunk upwards."
   (interactive)
@@ -349,6 +352,7 @@
 				      :callback #'mc-biome-viewer--update-from-xml))
   (mc-biome-viewer--draw-buffer))
 
+;;;###autoload
 (defun mc-biome-viewer-backward-y ()
   "Move the camera one chunk downwards."
   (interactive)
