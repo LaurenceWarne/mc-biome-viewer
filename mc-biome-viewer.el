@@ -120,6 +120,7 @@
     (define-key map "b" #'mc-biome-viewer-backward-x)
     (define-key map "p" #'mc-biome-viewer-forward-y)
     (define-key map "n" #'mc-biome-viewer-backward-y)
+    (define-key map "j" #'mc-biome-viewer-centre-camera)
     map))
 
 (define-derived-mode mc-biome-viewer-mode special-mode "mc-biome-viewer"
@@ -363,6 +364,16 @@
   (mc-biome-viewer--draw-buffer))
 
 ;;;###autoload
+(defun mc-biome-viewer-centre-camera (x z)
+  "Centre the camera at the specified world (X, Z) coordinate."
+  (interactive "nX: \nnZ: ")
+  (setq mc-biome-viewer--camera-origin-x
+	(- (/ x 16) (/ mc-biome-viewer-column-chunks-in-camera 2)))
+  (setq mc-biome-viewer--camera-origin-y
+	(- (/ z 16) (/ mc-biome-viewer-row-chunks-in-camera 2)))
+  (mc-biome-viewer--update-biomes :callback #'mc-biome-viewer--update-from-xml))
+
+;;;###autoload
 (defun mc-biome-viewer-view-seed (seed)
   "Show the Minecraft world with the seed specified by SEED.  The version used by the profile mc-biome-viewer-default-profile will be used to generate the world from the seed."
   (interactive "sSeed: ")
@@ -378,7 +389,7 @@
 ;;;###autoload
 (defun mc-biome-viewer-view-save (save)
   "Show the local Minecraft world at the directory specified by SAVE.  An example directory would be ~/.minecraft/my-profile/saves/my-world."
-  (interactive "sSave directory: ")
+  (interactive "DSave directory: ")
   (message "Starting server...")
   (mc-biome-viewer--start-server)
   (mc-biome-viewer--init-buffer)
