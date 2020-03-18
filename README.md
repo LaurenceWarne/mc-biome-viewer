@@ -14,12 +14,14 @@ A tool for viewing your Minecraft worlds from within Emacs.
 | p   | ```mc-biome-viewer-backward-y```    | Move the camera downwards one chunk                |
 | j   | ```mc-biome-viewer-centre-camera``` | Centre the camera at the prompted world coordinate |
 
-You can move from biome to biome using the usual text movement keys and information about the chunk the cursor is on will be displayed in label in the bottom left corner (see above).
+You can move from biome to biome using the usual text movement commands and information about the chunk the cursor is on will be displayed in a label in the bottom left corner (see above).
 
 ## Installation
 
 The easiest way is with ![quelpa-use-package](https://github.com/quelpa/quelpa-use-package):
 
 ```lisp
-(use-package mc-biome-viewer :quelpa (mc-biome-viewer :fetcher github :repo "LaurenceWarne/mc-biome-viewer"))
+(use-package mc-biome-viewer 
+	:ensure nil
+    :quelpa (mc-biome-viewer :fetcher github :repo "LaurenceWarne/mc-biome-viewer"))
 ```

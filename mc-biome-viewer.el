@@ -1,4 +1,4 @@
-;;; mc-biome-viewer.el --- view biomes in a minecraft world from within Emacs -*- lexical-binding: t -*-
+;;; mc-biome-viewer.el --- View biomes in a Minecraft world -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2020 Laurence Warne
 
@@ -315,7 +315,7 @@
 		     (vector (string-to-number x) (string-to-number y)) biome)))
   (mc-biome-viewer--draw-buffer "/"))
 
-(cl-defun continual-call (fn &key (delay 0.5) (times 5))
+(cl-defun mc-biome-viewer--continual-call (fn &key (delay 0.5) (times 5))
   (dotimes (i times nil)
     (sleep-for delay)
     (funcall fn)))
@@ -383,7 +383,7 @@
   (mc-biome-viewer--init-buffer)
   (setq mc-biome-viewer--seed seed)
   (message "Contacting server...")
-  (make-thread (lambda () (continual-call
+  (make-thread (lambda () (mc-biome-viewer--continual-call
       (lambda () (mc-biome-viewer--update-biomes
 		  :callback #'mc-biome-viewer--update-from-xml))))))
 
@@ -396,7 +396,7 @@
   (mc-biome-viewer--init-buffer)
   (setq mc-biome-viewer--save (expand-file-name save))
   (message "contacting server...")
-  (make-thread (lambda () (continual-call
+  (make-thread (lambda () (mc-biome-viewer--continual-call
       (lambda () (mc-biome-viewer--update-biomes
 		  :callback #'mc-biome-viewer--update-from-xml))))))
 
