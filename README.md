@@ -22,6 +22,6 @@ The easiest way is with ![quelpa-use-package](https://github.com/quelpa/quelpa-u
 
 ```lisp
 (use-package mc-biome-viewer 
-	:ensure nil
+    :ensure nil
     :quelpa (mc-biome-viewer :fetcher github :repo "LaurenceWarne/mc-biome-viewer"))
 ```
