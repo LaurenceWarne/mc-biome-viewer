@@ -21,7 +21,10 @@ You can move from biome to biome using the usual text movement commands and info
 The easiest way is with ![quelpa-use-package](https://github.com/quelpa/quelpa-use-package):
 
 ```lisp
-(use-package mc-biome-viewer 
+(use-package mc-biome-viewer
     :ensure nil
-    :quelpa (mc-biome-viewer :fetcher github :repo "LaurenceWarne/mc-biome-viewer"))
+    :quelpa (mc-biome-viewer :fetcher github :repo "LaurenceWarne/mc-biome-viewer")
+    :config
+    (setq mc-biome-viewer-column-chunks-in-camera 64)
+    (puthash "ice plains" '(:foreground "silver") mc-biome-viewer-biome-to-face-map))
 ```
