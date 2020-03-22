@@ -200,6 +200,32 @@
 	(overlay-put overlay 'face
 		     (ht-get mc-biome-viewer-biome-to-face-map biome-str)))))
 
+(defun mc-biome-viewer--create-line-overlay (start end face)
+  "Create an overlay from START to END of FACE."
+  (let ((overlay (make-overlay start end)))
+	  (overlay-put overlay 'face face)))
+
+(cl-defun mc-biome-viewer--draw-row (start-x y &key (not-found-str "?"))
+  "Draw a row at the current cursor position starting with the biome at the biome coordinate (START-X, Y)."
+  (let ((first-biome (ht-get mc-biome-viewer--chunk-cache (vector start-x y)
+			     not-found-str)))
+    (cl-do ((i (1+ start-x) (1+ i))
+	    (last-biome first-biome current-biome)
+	    (current-biome first-biome (ht-get mc-biome-viewer--chunk-cache
+					       (vector i y) not-found-str))
+	    (biome-run 0 (1+ biome-run)))
+	((> i (+ start-x mc-biome-viewer-column-chunks-in-camera)) nil)
+      (insert (ht-get mc-biome-viewer-biome-to-char-map current-biome not-found-str))
+      (when (not (equal current-biome last-biome))
+	(mc-biome-viewer--create-line-overlay
+	 (- (point) biome-run 1) (1- (point))
+	 (ht-get mc-biome-viewer-biome-to-face-map last-biome nil))
+	(setq biome-run 0))
+      (when (= i (+ start-x mc-biome-viewer-column-chunks-in-camera))
+	(mc-biome-viewer--create-line-overlay
+	 (- (point) biome-run 1) (point)
+	 (ht-get mc-biome-viewer-biome-to-face-map last-biome nil))))))
+
 (defun mc-biome-viewer--draw-buffer (&optional not-found-str)
   "Draw biomes as text in the current buffer.  If a biome is not found insert NOT-FOUND-STR."
   (mc-biome-viewer--init-offsets)
