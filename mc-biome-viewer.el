@@ -239,14 +239,9 @@
     (save-excursion
       (dotimes (i mc-biome-viewer-row-chunks-in-camera nil)
 	(dotimes (j mc-biome-viewer--x-offset nil) (insert " "))
-	(dotimes (j mc-biome-viewer-column-chunks-in-camera nil)
-	  (let* ((true-y (- mc-biome-viewer-row-chunks-in-camera i))
-		 (vec (vector (+ mc-biome-viewer--camera-origin-x j)
-			      (1- (+ mc-biome-viewer--camera-origin-y true-y)))))
-	    (if (ht-contains? mc-biome-viewer--chunk-cache vec)
-		(let ((biome-str (ht-get mc-biome-viewer--chunk-cache vec)))
-		  (mc-biome-viewer--draw-biome biome-str "?"))
-	      (insert (if not-found-str not-found-str "#")))))
+	(let* ((true-y (1- (+ mc-biome-viewer--camera-origin-y
+			      (- mc-biome-viewer-row-chunks-in-camera i)))))
+	    (mc-biome-viewer--draw-row mc-biome-viewer--camera-origin-x true-y))
 	(insert "\n")))
     (if (> prev-point 1) (goto-char prev-point) (forward-char mc-biome-viewer--x-offset))
     (when mc-biome-viewer-show-label
