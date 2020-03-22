@@ -224,7 +224,7 @@
       (when (= i (+ start-x mc-biome-viewer-column-chunks-in-camera))
 	(mc-biome-viewer--create-line-overlay
 	 (- (point) biome-run 1) (point)
-	 (ht-get mc-biome-viewer-biome-to-face-map last-biome nil))))))
+	 (ht-get mc-biome-viewer-biome-to-face-map current-biome nil))))))
 
 (defun mc-biome-viewer--draw-buffer (&optional not-found-str)
   "Draw biomes as text in the current buffer.  If a biome is not found insert NOT-FOUND-STR."
