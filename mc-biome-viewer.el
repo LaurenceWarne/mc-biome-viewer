@@ -74,7 +74,7 @@
   :type 'boolean)
 
 (defcustom mc-biome-viewer-biome-to-char-map
-  #s(hash-table test equal data ("ocean" "o" "plains" "^" "desert" "~" "extreme hills" "△" "forest" "f" "taiga" "‡" "swampland" "%" "river" "=" "hell" "$" "the end" "I" "frozen ocean" "o" "frozen river" "=" "ice plains" "❆" "ice mountains" "▲" "mushroom island" "M" "mushroom island shore" "M" "beach" "." "desert hills" "△" "forest hills" "△" "taiga hills" "△" "extreme hills edge" "△" "jungle" "J" "jungle hills" "△" "jungle edge" "J" "deep ocean" "O" "stone beach" "✧" "cold beach" "." "birch forest" "b" "birch forest hills" "△" "roofed forest" "T" "cold taiga" "‡" "cold taiga hills" "‡" "mega taiga" "&" "mega taiga hills" "&" "extreme hills+" "△" "savanna" "+" "savanna plateau" "+" "mesa" "#" "mesa plateau f" "#" "mesa plateau" "#" "the end - floating islands" " " "the end - medium island" " " "the end - high island" "▢" "the end - barren island" " " "warm ocean" "o" "lukewarm ocean" "o" "cold ocean" "o" "warm deep ocean" "O" "lukewarm deep ocean" "O" "cold deep ocean" "O" "frozen deep ocean" "O" "the void" " " "sunflower plains" "⁂" "desert m" "~" "extreme hills m" "△" "flower forest" "✿" "taiga m" "‡" "swampland m" "%" "ice plains spikes" "|" "jungle m" "J" "jungle edge m" "J" "birch forest m" "b" "birch forest hills m" "b" "roofed forest m" "T" "cold taiga m" "‡" "mega spruce taiga" "‡" "mega spruce taiga (hills)" "‡" "extreme hills+ m" "△" "savanna m" "+" "savanna plateau m" "+" "mesa (bryce)" "#" "mesa plateau f m" "#" "mesa plateau m" "#" "bamboo jungle" "Y" "bamboo jungle hills" "Y"))
+  '#s(hash-table test equal data ("ocean" ?o "plains" ?^ "desert" ?~ "extreme hills" ?△ "forest" ?f "taiga" ?‡ "swampland" ?% "river" ?= "hell" ?$ "the end" ?I "frozen ocean" ?o "frozen river" ?= "ice plains" ?❆ "ice mountains" ?▲ "mushroom island" ?M "mushroom island shore" ?M "beach" ?. "desert hills" ?△ "forest hills" ?△ "taiga hills" ?△ "extreme hills edge" ?△ "jungle" ?J "jungle hills" ?△ "jungle edge" ?J "deep ocean" ?O "stone beach" ?✧ "cold beach" ?. "birch forest" ?b "birch forest hills" ?△ "roofed forest" ?T "cold taiga" ?‡ "cold taiga hills" ?‡ "mega taiga" ?& "mega taiga hills" ?& "extreme hills+" ?△ "savanna" ?+ "savanna plateau" ?+ "mesa" ?# "mesa plateau f" ?# "mesa plateau" ?# "the end - floating islands" ?\s "the end - medium island" ?\s "the end - high island" ?▢ "the end - barren island" ?\s "warm ocean" ?o "lukewarm ocean" ?o "cold ocean" ?o "warm deep ocean" ?O "lukewarm deep ocean" ?O "cold deep ocean" ?O "frozen deep ocean" ?O "the void" ?\s "sunflower plains" ?⁂ "desert m" ?~ "extreme hills m" ?△ "flower forest" ?✿ "taiga m" ?‡ "swampland m" ?% "ice plains spikes" ?| "jungle m" ?J "jungle edge m" ?J "birch forest m" ?b "birch forest hills m" ?b "roofed forest m" ?T "cold taiga m" ?‡ "mega spruce taiga" ?‡ "mega spruce taiga (hills)" ?‡ "extreme hills+ m" ?△ "savanna m" ?+ "savanna plateau m" ?+ "mesa (bryce)" ?# "mesa plateau f m" ?# "mesa plateau m" ?# "bamboo jungle" ?Y "bamboo jungle hills" ?Y))
     "A mapping from Minecraft biomes to characters used to represent them in the grid."
   :group 'mc-biome-viewer
   :type 'hash-table)
@@ -205,30 +205,36 @@
   (let ((overlay (make-overlay start end)))
 	  (overlay-put overlay 'face face)))
 
-(cl-defun mc-biome-viewer--draw-row (start-x y &key (not-found-str "?"))
+(cl-defun mc-biome-viewer--draw-row (start-x y &key (not-found-char ??))
   "Draw a row at the current cursor position starting with the biome at the biome coordinate (START-X, Y)."
   (let ((first-biome (ht-get mc-biome-viewer--chunk-cache (vector start-x y)
-			     not-found-str)))
+			     not-found-char)))
     (cl-do ((i (1+ start-x) (1+ i))
 	    (last-biome first-biome current-biome)
 	    (current-biome first-biome (ht-get mc-biome-viewer--chunk-cache
-					       (vector i y) not-found-str))
+					       (vector i y) not-found-char))
 	    (biome-run 0 (1+ biome-run)))
 	((> i (+ start-x mc-biome-viewer-column-chunks-in-camera)) nil)
-      (insert (ht-get mc-biome-viewer-biome-to-char-map current-biome not-found-str))
-      (when (and (not (equal current-biome last-biome)) mc-biome-viewer-colour-biomes)
-	(mc-biome-viewer--create-line-overlay
-	 (- (point) biome-run 1) (1- (point))
-	 (ht-get mc-biome-viewer-biome-to-face-map last-biome nil))
+      (when (not (equal current-biome last-biome))
+	(insert-char (ht-get mc-biome-viewer-biome-to-char-map last-biome not-found-char)
+		     biome-run)
+	(when mc-biome-viewer-colour-biomes
+	  (mc-biome-viewer--create-line-overlay
+	   (- (point) biome-run) (point)
+	   ;(- (point) biome-run 1) (1- (point))
+	   (ht-get mc-biome-viewer-biome-to-face-map last-biome nil)))
 	(setq biome-run 0))
-      (when (and (= i (+ start-x mc-biome-viewer-column-chunks-in-camera))
-		 mc-biome-viewer-colour-biomes)
-	(mc-biome-viewer--create-line-overlay
-	 (- (point) biome-run 1) (point)
-	 (ht-get mc-biome-viewer-biome-to-face-map current-biome nil))))))
+      (when (= i (+ start-x mc-biome-viewer-column-chunks-in-camera))
+	(insert-char (ht-get mc-biome-viewer-biome-to-char-map
+			     current-biome not-found-char)
+		     biome-run)
+	(when mc-biome-viewer-colour-biomes
+	  (mc-biome-viewer--create-line-overlay
+	   (- (point) biome-run 1) (point)
+	   (ht-get mc-biome-viewer-biome-to-face-map current-biome nil)))))))
 
-(defun mc-biome-viewer--draw-buffer (&optional not-found-str)
-  "Draw biomes as text in the current buffer.  If a biome is not found insert NOT-FOUND-STR."
+(defun mc-biome-viewer--draw-buffer (&optional not-found-char)
+  "Draw biomes as text in the current buffer.  If a biome is not found insert NOT-FOUND-CHAR."
   (mc-biome-viewer--init-offsets)
   (let ((inhibit-read-only t)
 	(prev-point (point))
@@ -366,42 +372,42 @@
   "Move the camera one chunk to the left."
   (interactive)
   (cl-incf mc-biome-viewer--camera-origin-x)
+  (mc-biome-viewer--draw-buffer)
   (let ((start (+ mc-biome-viewer--camera-origin-x
 		  mc-biome-viewer-column-chunks-in-camera)))
     (mc-biome-viewer--update-biomes :chunk-start-x start :chunk-end-x (+ 2 start)
-				    :callback #'mc-biome-viewer--update-from-xml))
-  (mc-biome-viewer--draw-buffer))
+				    :callback #'mc-biome-viewer--update-from-xml)))
 
 ;;;###autoload
 (defun mc-biome-viewer-backward-x ()
   "Move the camera one chunk to the right."
   (interactive)
   (cl-decf mc-biome-viewer--camera-origin-x)
-    (let ((start mc-biome-viewer--camera-origin-x))
-      (mc-biome-viewer--update-biomes :chunk-start-x (- start 2) :chunk-end-x start
-				      :callback #'mc-biome-viewer--update-from-xml))
-  (mc-biome-viewer--draw-buffer))
+  (mc-biome-viewer--draw-buffer)
+  (let ((start mc-biome-viewer--camera-origin-x))
+    (mc-biome-viewer--update-biomes :chunk-start-x (- start 2) :chunk-end-x start
+				    :callback #'mc-biome-viewer--update-from-xml)))
 
 ;;;###autoload
 (defun mc-biome-viewer-forward-y ()
   "Move the camera one chunk upwards."
   (interactive)
   (cl-incf mc-biome-viewer--camera-origin-y)
-    (let ((start (+ mc-biome-viewer--camera-origin-y
+  (mc-biome-viewer--draw-buffer)
+  (let ((start (+ mc-biome-viewer--camera-origin-y
 		  mc-biome-viewer-row-chunks-in-camera)))
-      (mc-biome-viewer--update-biomes :chunk-start-y start :chunk-end-y (+ 2 start)
-				      :callback #'mc-biome-viewer--update-from-xml))
-  (mc-biome-viewer--draw-buffer))
+    (mc-biome-viewer--update-biomes :chunk-start-y start :chunk-end-y (+ 2 start)
+				      :callback #'mc-biome-viewer--update-from-xml)))
 
 ;;;###autoload
 (defun mc-biome-viewer-backward-y ()
   "Move the camera one chunk downwards."
   (interactive)
   (cl-decf mc-biome-viewer--camera-origin-y)
+  (mc-biome-viewer--draw-buffer)
   (let ((start mc-biome-viewer--camera-origin-y))
     (mc-biome-viewer--update-biomes :chunk-start-y (- start 2) :chunk-end-y start
-				    :callback #'mc-biome-viewer--update-from-xml))
-  (mc-biome-viewer--draw-buffer))
+				    :callback #'mc-biome-viewer--update-from-xml)))
 
 ;;;###autoload
 (defun mc-biome-viewer-centre-camera (x z)
