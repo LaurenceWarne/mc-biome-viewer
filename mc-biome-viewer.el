@@ -216,12 +216,13 @@
 	    (biome-run 0 (1+ biome-run)))
 	((> i (+ start-x mc-biome-viewer-column-chunks-in-camera)) nil)
       (insert (ht-get mc-biome-viewer-biome-to-char-map current-biome not-found-str))
-      (when (not (equal current-biome last-biome))
+      (when (and (not (equal current-biome last-biome)) mc-biome-viewer-colour-biomes)
 	(mc-biome-viewer--create-line-overlay
 	 (- (point) biome-run 1) (1- (point))
 	 (ht-get mc-biome-viewer-biome-to-face-map last-biome nil))
 	(setq biome-run 0))
-      (when (= i (+ start-x mc-biome-viewer-column-chunks-in-camera))
+      (when (and (= i (+ start-x mc-biome-viewer-column-chunks-in-camera))
+		 mc-biome-viewer-colour-biomes)
 	(mc-biome-viewer--create-line-overlay
 	 (- (point) biome-run 1) (point)
 	 (ht-get mc-biome-viewer-biome-to-face-map current-biome nil))))))
@@ -234,18 +235,17 @@
 	(prev-biome (mc-biome-viewer--get-biome-coord-at-cursor)))
     (erase-buffer)
     (remove-overlays)  ; Else causes huge lag
-    (dotimes (i mc-biome-viewer--y-offset nil)
-      (insert "\n"))
+    (insert-char ?\n mc-biome-viewer--y-offset)
     (save-excursion
       (dotimes (i mc-biome-viewer-row-chunks-in-camera nil)
-	(dotimes (j mc-biome-viewer--x-offset nil) (insert " "))
+	(insert-char ?\s mc-biome-viewer--x-offset)
 	(let* ((true-y (1- (+ mc-biome-viewer--camera-origin-y
 			      (- mc-biome-viewer-row-chunks-in-camera i)))))
 	    (mc-biome-viewer--draw-row mc-biome-viewer--camera-origin-x true-y))
-	(insert "\n")))
+	(insert-char ?\n)))
     (if (> prev-point 1) (goto-char prev-point) (forward-char mc-biome-viewer--x-offset))
     (when mc-biome-viewer-show-label
-      (save-excursion (goto-char (point-max)) (insert "\n")
+      (save-excursion (goto-char (point-max)) (insert-char ?\n)
 		      (mc-biome-viewer--draw-label :position prev-biome)))))
 
 (defun mc-biome-viewer--init-buffer ()
