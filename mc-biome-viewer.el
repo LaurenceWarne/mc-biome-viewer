@@ -372,42 +372,42 @@
   "Move the camera one chunk to the left."
   (interactive)
   (cl-incf mc-biome-viewer--camera-origin-x)
-  (mc-biome-viewer--draw-buffer)
   (let ((start (+ mc-biome-viewer--camera-origin-x
 		  mc-biome-viewer-column-chunks-in-camera)))
     (mc-biome-viewer--update-biomes :chunk-start-x start :chunk-end-x (+ 2 start)
-				    :callback #'mc-biome-viewer--update-from-xml)))
+				    :callback #'mc-biome-viewer--update-from-xml))
+  (mc-biome-viewer--draw-buffer))
 
 ;;;###autoload
 (defun mc-biome-viewer-backward-x ()
   "Move the camera one chunk to the right."
   (interactive)
   (cl-decf mc-biome-viewer--camera-origin-x)
-  (mc-biome-viewer--draw-buffer)
-  (let ((start mc-biome-viewer--camera-origin-x))
-    (mc-biome-viewer--update-biomes :chunk-start-x (- start 2) :chunk-end-x start
-				    :callback #'mc-biome-viewer--update-from-xml)))
+    (let ((start mc-biome-viewer--camera-origin-x))
+      (mc-biome-viewer--update-biomes :chunk-start-x (- start 2) :chunk-end-x start
+				      :callback #'mc-biome-viewer--update-from-xml))
+  (mc-biome-viewer--draw-buffer))
 
 ;;;###autoload
 (defun mc-biome-viewer-forward-y ()
   "Move the camera one chunk upwards."
   (interactive)
   (cl-incf mc-biome-viewer--camera-origin-y)
-  (mc-biome-viewer--draw-buffer)
-  (let ((start (+ mc-biome-viewer--camera-origin-y
+    (let ((start (+ mc-biome-viewer--camera-origin-y
 		  mc-biome-viewer-row-chunks-in-camera)))
-    (mc-biome-viewer--update-biomes :chunk-start-y start :chunk-end-y (+ 2 start)
-				      :callback #'mc-biome-viewer--update-from-xml)))
+      (mc-biome-viewer--update-biomes :chunk-start-y start :chunk-end-y (+ 2 start)
+				      :callback #'mc-biome-viewer--update-from-xml))
+  (mc-biome-viewer--draw-buffer))
 
 ;;;###autoload
 (defun mc-biome-viewer-backward-y ()
   "Move the camera one chunk downwards."
   (interactive)
   (cl-decf mc-biome-viewer--camera-origin-y)
-  (mc-biome-viewer--draw-buffer)
   (let ((start mc-biome-viewer--camera-origin-y))
     (mc-biome-viewer--update-biomes :chunk-start-y (- start 2) :chunk-end-y start
-				    :callback #'mc-biome-viewer--update-from-xml)))
+				    :callback #'mc-biome-viewer--update-from-xml))
+  (mc-biome-viewer--draw-buffer))
 
 ;;;###autoload
 (defun mc-biome-viewer-centre-camera (x z)
