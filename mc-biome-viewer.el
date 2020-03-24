@@ -221,7 +221,6 @@
 	(when mc-biome-viewer-colour-biomes
 	  (mc-biome-viewer--create-line-overlay
 	   (- (point) biome-run) (point)
-	   ;(- (point) biome-run 1) (1- (point))
 	   (ht-get mc-biome-viewer-biome-to-face-map last-biome nil)))
 	(setq biome-run 0))
       (when (= i (+ start-x mc-biome-viewer-column-chunks-in-camera))
@@ -230,7 +229,7 @@
 		     biome-run)
 	(when mc-biome-viewer-colour-biomes
 	  (mc-biome-viewer--create-line-overlay
-	   (- (point) biome-run 1) (point)
+	   (- (point) biome-run) (point)
 	   (ht-get mc-biome-viewer-biome-to-face-map current-biome nil)))))))
 
 (defun mc-biome-viewer--draw-buffer (&optional not-found-char)
@@ -358,7 +357,8 @@
 		 (biome (downcase (car (last (car (last e)))))))
 	     (ht-set mc-biome-viewer--chunk-cache
 		     (vector (string-to-number x) (string-to-number y)) biome)))
-  (mc-biome-viewer--draw-buffer "/"))
+  (mc-biome-viewer--draw-buffer "?")
+  )
 
 (cl-defun mc-biome-viewer--continual-call (fn &key (delay 0.5) (times 5))
   (dotimes (i times nil)
@@ -383,9 +383,9 @@
   "Move the camera one chunk to the right."
   (interactive)
   (cl-decf mc-biome-viewer--camera-origin-x)
-    (let ((start mc-biome-viewer--camera-origin-x))
-      (mc-biome-viewer--update-biomes :chunk-start-x (- start 2) :chunk-end-x start
-				      :callback #'mc-biome-viewer--update-from-xml))
+  (let ((start mc-biome-viewer--camera-origin-x))
+    (mc-biome-viewer--update-biomes :chunk-start-x (- start 2) :chunk-end-x start
+				    :callback #'mc-biome-viewer--update-from-xml))
   (mc-biome-viewer--draw-buffer))
 
 ;;;###autoload
@@ -393,10 +393,10 @@
   "Move the camera one chunk upwards."
   (interactive)
   (cl-incf mc-biome-viewer--camera-origin-y)
-    (let ((start (+ mc-biome-viewer--camera-origin-y
+  (let ((start (+ mc-biome-viewer--camera-origin-y
 		  mc-biome-viewer-row-chunks-in-camera)))
-      (mc-biome-viewer--update-biomes :chunk-start-y start :chunk-end-y (+ 2 start)
-				      :callback #'mc-biome-viewer--update-from-xml))
+    (mc-biome-viewer--update-biomes :chunk-start-y start :chunk-end-y (+ 2 start)
+				    :callback #'mc-biome-viewer--update-from-xml))
   (mc-biome-viewer--draw-buffer))
 
 ;;;###autoload
