@@ -1,6 +1,6 @@
 # Emacs Biome Viewer
 
-A tool for viewing your Minecraft worlds from within Emacs.
+A tool for viewing your Minecraft worlds from within Emacs using [Amidst](https://github.com/toolbox4minecraft/amidst).
 
 ![mc-biome-viewer example](https://user-images.githubusercontent.com/17688577/76894381-f21ac080-6885-11ea-8268-0d4f4cd329df.png)
 
@@ -14,7 +14,7 @@ A tool for viewing your Minecraft worlds from within Emacs.
 | p   | ```mc-biome-viewer-forward-y```    | Move the camera upwards one chunk                |
 | j   | ```mc-biome-viewer-centre-camera``` | Centre the camera at the prompted world coordinate |
 
-You can move from biome to biome using the usual text movement commands and information about the chunk the cursor is on will be displayed in a label in the bottom left corner (see above).
+You can move from biome to biome using the usual text movement commands and information about the chunk the cursor is on will be displayed in a label in the bottom left corner (see the image above).
 
 ## Installation
 
@@ -26,6 +26,10 @@ The easiest way is with ![quelpa-use-package](https://github.com/quelpa/quelpa-u
     :quelpa (mc-biome-viewer :fetcher github :repo "LaurenceWarne/mc-biome-viewer")
     ;; Example configuration
     :config
-    (setq mc-biome-viewer-column-chunks-in-camera 64)
+    ;; Note you must have a Minecraft launcher profile which uses this version!
+    (setq mc-biome-viewer-default-version "my.preferred.version")
+    (setq mc-biome-viewer-column-chunks-in-camera 48)  ; But fewer chunks will be faster
     (puthash "ice plains" '(:foreground "silver") mc-biome-viewer-biome-to-face-map))
 ```
+
+Java 8 is also required (along with a Minecraft installation).
