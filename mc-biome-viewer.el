@@ -128,7 +128,8 @@
   "A mode for showing minecraft worlds."
   (setq buffer-read-only t
         truncate-lines   t)
-  (add-hook 'post-command-hook (lambda () (mc-biome-viewer--draw-label :delete t)) nil t)
+  (add-hook 'post-command-hook
+	    (lambda () (when mc-biome-viewer-show-label (mc-biome-viewer--draw-label :delete t))) nil t)
   (buffer-disable-undo))
 
 ;; Internal functions
