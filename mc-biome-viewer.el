@@ -125,7 +125,7 @@
     map))
 
 (define-derived-mode mc-biome-viewer-mode special-mode "mc-biome-viewer"
-  "A mode for showing minecraft worlds."
+  "A mode for showing Minecraft worlds."
   (setq buffer-read-only t
         truncate-lines   t)
   (set (make-local-variable 'post-command-hook) nil)
@@ -364,7 +364,7 @@
   )
 
 (cl-defun mc-biome-viewer--continual-call (fn &key (delay 0.5) (times 5))
-  (dotimes (i times nil)
+  (cl-loop repeat times do
     (sleep-for delay)
     (funcall fn)))
 
