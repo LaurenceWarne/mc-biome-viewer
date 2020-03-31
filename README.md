@@ -4,7 +4,7 @@ A tool for viewing your Minecraft worlds from within Emacs using [Amidst](https:
 
 ![mc-biome-viewer example](https://user-images.githubusercontent.com/17688577/76894381-f21ac080-6885-11ea-8268-0d4f4cd329df.png)
 
-Each character in the grid corresponds to one ![chunk](https://minecraft.gamepedia.com/Chunk).
+Each character in the grid corresponds to one [chunk](https://minecraft.gamepedia.com/Chunk).
 
 ## Keys
 
