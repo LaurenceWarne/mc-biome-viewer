@@ -96,7 +96,7 @@
                                   "extreme hills" ?△
                                   "extreme hills+ m" ?△
                                   "extreme hills+" ?△
-                                  "flower forest" ?✿
+                                  "flower forest" ?*
                                   "forest hills" ?△
                                   "forest" ?f
                                   "frozen deep ocean" ?O
@@ -134,8 +134,8 @@
                                   "savanna plateau m" ?+
                                   "savanna plateau" ?+
                                   "savanna" ?+
-                                  "stone beach" ?✧
-                                  "sunflower plains" ?⁂
+                                  "stone beach" ?.
+                                  "sunflower plains" ?*
                                   "swampland m" ?%
                                   "swampland" ?%
                                   "taiga hills" ?△

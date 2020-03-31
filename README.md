@@ -4,6 +4,8 @@ A tool for viewing your Minecraft worlds from within Emacs using [Amidst](https:
 
 ![mc-biome-viewer example](https://user-images.githubusercontent.com/17688577/76894381-f21ac080-6885-11ea-8268-0d4f4cd329df.png)
 
+Each character in the grid corresponds to one ![chunk](https://minecraft.gamepedia.com/Chunk).
+
 ## Keys
 
 | Key | Command                             | Description                                        |
@@ -13,6 +15,8 @@ A tool for viewing your Minecraft worlds from within Emacs using [Amidst](https:
 | n   | ```mc-biome-viewer-backward-y```     | Move the camera downwards one chunk                  |
 | p   | ```mc-biome-viewer-forward-y```    | Move the camera upwards one chunk                |
 | j   | ```mc-biome-viewer-centre-camera``` | Centre the camera at the prompted world coordinate |
+
+Alternatively the traditional UP, DOWN, LEFT, RIGHT keys can be used to shift the camera.
 
 You can move from biome to biome using the usual text movement commands and information about the chunk the cursor is on will be displayed in a label in the bottom left corner (see the image above).
 
