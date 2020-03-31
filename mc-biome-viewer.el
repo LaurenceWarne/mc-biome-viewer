@@ -74,14 +74,162 @@
   :type 'boolean)
 
 (defcustom mc-biome-viewer-biome-to-char-map
-  '#s(hash-table test equal data ("ocean" ?o "plains" ?^ "desert" ?~ "extreme hills" ?△ "forest" ?f "taiga" ?‡ "swampland" ?% "river" ?= "hell" ?$ "the end" ?I "frozen ocean" ?o "frozen river" ?= "ice plains" ?❆ "ice mountains" ?▲ "mushroom island" ?M "mushroom island shore" ?M "beach" ?. "desert hills" ?△ "forest hills" ?△ "taiga hills" ?△ "extreme hills edge" ?△ "jungle" ?J "jungle hills" ?△ "jungle edge" ?J "deep ocean" ?O "stone beach" ?✧ "cold beach" ?. "birch forest" ?b "birch forest hills" ?△ "roofed forest" ?T "cold taiga" ?‡ "cold taiga hills" ?‡ "mega taiga" ?& "mega taiga hills" ?& "extreme hills+" ?△ "savanna" ?+ "savanna plateau" ?+ "mesa" ?# "mesa plateau f" ?# "mesa plateau" ?# "the end - floating islands" ?\s "the end - medium island" ?\s "the end - high island" ?▢ "the end - barren island" ?\s "warm ocean" ?o "lukewarm ocean" ?o "cold ocean" ?o "warm deep ocean" ?O "lukewarm deep ocean" ?O "cold deep ocean" ?O "frozen deep ocean" ?O "the void" ?\s "sunflower plains" ?⁂ "desert m" ?~ "extreme hills m" ?△ "flower forest" ?✿ "taiga m" ?‡ "swampland m" ?% "ice plains spikes" ?| "jungle m" ?J "jungle edge m" ?J "birch forest m" ?b "birch forest hills m" ?b "roofed forest m" ?T "cold taiga m" ?‡ "mega spruce taiga" ?‡ "mega spruce taiga (hills)" ?‡ "extreme hills+ m" ?△ "savanna m" ?+ "savanna plateau m" ?+ "mesa (bryce)" ?# "mesa plateau f m" ?# "mesa plateau m" ?# "bamboo jungle" ?Y "bamboo jungle hills" ?Y))
+  '#s(hash-table test equal data ("bamboo jungle hills" ?Y
+                                  "bamboo jungle" ?Y
+                                  "beach" ?.
+                                  "birch forest hills m" ?b
+                                  "birch forest hills" ?△
+                                  "birch forest m" ?b
+                                  "birch forest" ?b
+                                  "cold beach" ?.
+                                  "cold deep ocean" ?O
+                                  "cold ocean" ?o
+                                  "cold taiga hills" ?‡
+                                  "cold taiga m" ?‡
+                                  "cold taiga" ?‡
+                                  "deep ocean" ?O
+                                  "desert hills" ?△
+                                  "desert m" ?~
+                                  "desert" ?~
+                                  "extreme hills edge" ?△
+                                  "extreme hills m" ?△
+                                  "extreme hills" ?△
+                                  "extreme hills+ m" ?△
+                                  "extreme hills+" ?△
+                                  "flower forest" ?✿
+                                  "forest hills" ?△
+                                  "forest" ?f
+                                  "frozen deep ocean" ?O
+                                  "frozen ocean" ?o
+                                  "frozen river" ?=
+                                  "hell" ?$
+                                  "ice mountains" ?▲
+                                  "ice plains spikes" ?|
+                                  "ice plains" ?❆
+                                  "jungle edge m" ?J
+                                  "jungle edge" ?J
+                                  "jungle hills" ?△
+                                  "jungle m" ?J
+                                  "jungle" ?J
+                                  "lukewarm deep ocean" ?O
+                                  "lukewarm ocean" ?o
+                                  "mega spruce taiga (hills)" ?‡
+                                  "mega spruce taiga" ?‡
+                                  "mega taiga hills" ?&
+                                  "mega taiga" ?&
+                                  "mesa (bryce)" ?#
+                                  "mesa plateau f m" ?#
+                                  "mesa plateau f" ?#
+                                  "mesa plateau m" ?#
+                                  "mesa plateau" ?#
+                                  "mesa" ?#
+                                  "mushroom island shore" ?M
+                                  "mushroom island" ?M
+                                  "ocean" ?o
+                                  "plains" ?^
+                                  "river" ?=
+                                  "roofed forest m" ?T
+                                  "roofed forest" ?T
+                                  "savanna m" ?+
+                                  "savanna plateau m" ?+
+                                  "savanna plateau" ?+
+                                  "savanna" ?+
+                                  "stone beach" ?✧
+                                  "sunflower plains" ?⁂
+                                  "swampland m" ?%
+                                  "swampland" ?%
+                                  "taiga hills" ?△
+                                  "taiga m" ?‡
+                                  "taiga" ?‡
+                                  "the end - barren island" ?\s
+                                  "the end - floating islands" ?\s
+                                  "the end - high island" ?▢
+                                  "the end - medium island" ?\s
+                                  "the end" ?I
+                                  "the void" ?\s
+                                  "warm deep ocean" ?O
+                                  "warm ocean" ?o))
     "A mapping from Minecraft biomes to characters used to represent them in the grid."
   :group 'mc-biome-viewer
   :type 'hash-table)
 
 ;; Source https://github.com/toolbox4minecraft/amidst/blob/f0229b840b8a9a47d60b558604df45b753b1387e/src/main/java/amidst/mojangapi/world/biome/Biome.java
 (defcustom mc-biome-viewer-biome-to-face-map
-  #s(hash-table test equal data ("ocean" (:foreground "sky blue") "plains" (:foreground "light green") "desert" (:foreground "yellow") "extreme hills" (:foreground "green") "forest" (:foreground "green") "taiga" (:foreground "dark green") "swampland" (:foreground "brown") "river" (:foreground "sky blue") "hell" (:foreground "red") "the end" (:foreground "white") "frozen ocean" (:foreground "white") "frozen river" (:foreground "white") "ice plains" (:foreground "white") "ice mountains" (:foreground "white") "mushroom island" (:foreground "light pink") "mushroom island shore" (:foreground "light pink") "beach" (:foreground "gold") "desert hills" (:foreground "yellow") "forest hills" (:foreground "green") "taiga hills" (:foreground "dark green") "extreme hills edge" (:foreground "chocolate") "jungle" (:foreground "spring green") "jungle hills" (:foreground "spring green") "jungle edge" (:foreground "spring green") "deep ocean" (:foreground "dark blue") "stone beach" (:foreground "grey") "cold beach" (:foreground "white") "birch forest" (:foreground "lawn green") "birch forest hills" (:foreground "lawn green") "roofed forest" (:foreground "green") "cold taiga" (:foreground "white") "cold taiga hills" (:foreground "white") "mega taiga" (:foreground "olive") "mega taiga hills" (:foreground "olive") "extreme hills+" (:foreground "chocolate") "savanna" (:foreground "orange") "savanna plateau" (:foreground "orange") "mesa" (:foreground "red") "mesa plateau f" (:foreground "red") "mesa plateau" (:foreground "red") "the end - floating islands" (:foreground "white") "the end - medium island" (:foreground "white") "the end - high island" (:foreground "white") "the end - barren island" (:foreground "white") "warm ocean" (:foreground "cyan") "lukewarm ocean" (:foreground "cyan") "cold ocean" (:foreground "white") "warm deep ocean" (:foreground "cyan") "lukewarm deep ocean" (:foreground "cyan") "cold deep ocean" (:foreground "white") "frozen deep ocean" (:foreground "white") "the void" (:foreground "white") "sunflower plains" (:foreground "light green") "desert m" (:foreground "yellow") "extreme hills m" (:foreground "yellow") "flower forest" (:foreground "light green") "taiga m" (:foreground "dark green") "swampland m" (:foreground "brown") "ice plains spikes" (:foreground "violet") "jungle m" (:foreground "spring green") "jungle edge m" (:foreground "spring green") "birch forest m" (:foreground "lawn green") "birch forest hills m" (:foreground "lawn green") "roofed forest m" (:foreground "green") "cold taiga m" (:foreground "white") "mega spruce taiga" (:foreground "white") "mega spruce taiga (hills)" (:foreground "white") "extreme hills+ m" (:foreground "chocolate") "savanna m" (:foreground "orange") "savanna plateau m" (:foreground "orange") "mesa (bryce)" (:foreground "red") "mesa plateau f m" (:foreground "red") "mesa plateau m" (:foreground "red") "bamboo jungle" (:foreground "spring green") "bamboo jungle hills" (:foreground "spring green")))
+  #s(hash-table test equal data ("bamboo jungle hills" (:foreground "spring green")
+                                 "bamboo jungle" (:foreground "spring green")
+                                 "beach" (:foreground "gold")
+                                 "birch forest hills m" (:foreground "lawn green")
+                                 "birch forest hills" (:foreground "lawn green")
+                                 "birch forest m" (:foreground "lawn green")
+                                 "birch forest" (:foreground "lawn green")
+                                 "cold beach" (:foreground "white")
+                                 "cold deep ocean" (:foreground "white")
+                                 "cold ocean" (:foreground "white")
+                                 "cold taiga hills" (:foreground "white")
+                                 "cold taiga m" (:foreground "white")
+                                 "cold taiga" (:foreground "white")
+                                 "deep ocean" (:foreground "dark blue")
+                                 "desert hills" (:foreground "yellow")
+                                 "desert m" (:foreground "yellow")
+                                 "desert" (:foreground "yellow")
+                                 "extreme hills edge" (:foreground "chocolate")
+                                 "extreme hills m" (:foreground "yellow")
+                                 "extreme hills" (:foreground "green")
+                                 "extreme hills+ m" (:foreground "chocolate")
+                                 "extreme hills+" (:foreground "chocolate")
+                                 "flower forest" (:foreground "light green")
+                                 "forest hills" (:foreground "green")
+                                 "forest" (:foreground "green")
+                                 "frozen deep ocean" (:foreground "white")
+                                 "frozen ocean" (:foreground "white")
+                                 "frozen river" (:foreground "white")
+                                 "hell" (:foreground "red")
+                                 "ice mountains" (:foreground "white")
+                                 "ice plains spikes" (:foreground "violet")
+                                 "ice plains" (:foreground "white")
+                                 "jungle edge m" (:foreground "spring green")
+                                 "jungle edge" (:foreground "spring green")
+                                 "jungle hills" (:foreground "spring green")
+                                 "jungle m" (:foreground "spring green")
+                                 "jungle" (:foreground "spring green")
+                                 "lukewarm deep ocean" (:foreground "cyan")
+                                 "lukewarm ocean" (:foreground "cyan")
+                                 "mega spruce taiga (hills)" (:foreground "white")
+                                 "mega spruce taiga" (:foreground "white")
+                                 "mega taiga hills" (:foreground "olive")
+                                 "mega taiga" (:foreground "olive")
+                                 "mesa (bryce)" (:foreground "red")
+                                 "mesa plateau f m" (:foreground "red")
+                                 "mesa plateau f" (:foreground "red")
+                                 "mesa plateau m" (:foreground "red")
+                                 "mesa plateau" (:foreground "red")
+                                 "mesa" (:foreground "red")
+                                 "mushroom island shore" (:foreground "light pink")
+                                 "mushroom island" (:foreground "light pink")
+                                 "ocean" (:foreground "sky blue")
+                                 "plains" (:foreground "light green")
+                                 "river" (:foreground "sky blue")
+                                 "roofed forest m" (:foreground "green")
+                                 "roofed forest" (:foreground "green")
+                                 "savanna m" (:foreground "orange")
+                                 "savanna plateau m" (:foreground "orange")
+                                 "savanna plateau" (:foreground "orange")
+                                 "savanna" (:foreground "orange")
+                                 "stone beach" (:foreground "grey")
+                                 "sunflower plains" (:foreground "light green")
+                                 "swampland m" (:foreground "brown")
+                                 "swampland" (:foreground "brown")
+                                 "taiga hills" (:foreground "dark green")
+                                 "taiga m" (:foreground "dark green")
+                                 "taiga" (:foreground "dark green")
+                                 "the end - barren island" (:foreground "white")
+                                 "the end - floating islands" (:foreground "white")
+                                 "the end - high island" (:foreground "white")
+                                 "the end - medium island" (:foreground "white")
+                                 "the end" (:foreground "white")
+                                 "the void" (:foreground "white")
+                                 "warm deep ocean" (:foreground "cyan")
+                                 "warm ocean" (:foreground "cyan")))
    "A hash table mapping biome names to faces to be applied to them on the grid. Specifically, values in this hash can be any valid value for the face property described in https://www.gnu.org/software/emacs/manual/html_node/elisp/Overlay-Properties.html#Overlay-Properties"
   :group 'mc-biome-viewer
   :type 'hash-table)
@@ -110,6 +258,7 @@
 (defvar-local mc-biome-viewer--y-offset 0)
 (defvar-local mc-biome-viewer--seed nil)
 (defvar-local mc-biome-viewer--save nil)
+(defvar-local mc-biome-viewer--chunk-size 16)
 
 ;; Maps and modes
 
@@ -122,6 +271,10 @@
     (define-key map "p" #'mc-biome-viewer-forward-y)
     (define-key map "n" #'mc-biome-viewer-backward-y)
     (define-key map "j" #'mc-biome-viewer-centre-camera)
+    (define-key map [C-right] #'mc-biome-viewer-forward-x)
+    (define-key map [C-left] #'mc-biome-viewer-backward-x)
+    (define-key map [C-up] #'mc-biome-viewer-forward-y)
+    (define-key map [C-down]  #'mc-biome-viewer-backward-y)
     map))
 
 (define-derived-mode mc-biome-viewer-mode special-mode "mc-biome-viewer"
@@ -279,7 +432,7 @@
 	(let ((overlay (make-overlay (- (point) (1+ (length biome))) (point))))
 	  (overlay-put overlay 'face (ht-get mc-biome-viewer-biome-to-face-map
 					     biome))))
-      (insert "(x z): " (if position (format "%s" (--map (* 16 it) position)) "N/A")))))
+      (insert "(x z): " (if position (format "%s" (--map (* mc-biome-viewer--chunk-size it) position)) "N/A")))))
 
 (cl-defun mc-biome-viewer--request-biomes-seed
     (seed chunk-start-x chunk-start-y chunk-end-x chunk-end-y
@@ -417,9 +570,9 @@
   "Centre the camera at the specified world (X, Z) coordinate."
   (interactive "nX: \nnZ: ")
   (setq mc-biome-viewer--camera-origin-x
-	(- (/ x 16) (/ mc-biome-viewer-column-chunks-in-camera 2)))
+	(- (/ x mc-biome-viewer--chunk-size) (/ mc-biome-viewer-column-chunks-in-camera 2)))
   (setq mc-biome-viewer--camera-origin-y
-	(- (/ z 16) (/ mc-biome-viewer-row-chunks-in-camera 2)))
+	(- (/ z mc-biome-viewer--chunk-size) (/ mc-biome-viewer-row-chunks-in-camera 2)))
   (mc-biome-viewer--update-biomes :callback #'mc-biome-viewer--update-from-xml))
 
 ;;;###autoload
