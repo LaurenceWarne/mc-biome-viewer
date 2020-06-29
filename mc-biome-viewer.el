@@ -234,6 +234,11 @@
   :group 'mc-biome-viewer
   :type 'hash-table)
 
+(defcustom mc-biome-viewer-offset-label t
+  "If non-nil offset the label so that it's inline with the column offset of the camera."
+  :group 'mc-biome-viewer
+  :type 'boolean)
+
 (defvar mc-biome-viewer--server-directory
   (concat user-emacs-directory "mc-biome-viewer"))
 
@@ -427,11 +432,13 @@
 	   (region-end (progn (forward-line) (line-end-position))))
       (remove-overlays region-start region-end)
       (when delete (delete-region region-start region-end))
+      (when mc-biome-viewer-offset-label (insert-char ?\s mc-biome-viewer--x-offset))
       (insert "Biome: " (if biome biome "?") "\n")
       (when biome
 	(let ((overlay (make-overlay (- (point) (1+ (length biome))) (point))))
 	  (overlay-put overlay 'face (ht-get mc-biome-viewer-biome-to-face-map
 					     biome))))
+      (when mc-biome-viewer-offset-label (insert-char ?\s mc-biome-viewer--x-offset))
       (insert "(x z): " (if position (format "%s" (--map (* mc-biome-viewer--chunk-size it) position)) "N/A")))))
 
 (cl-defun mc-biome-viewer--request-biomes-seed
