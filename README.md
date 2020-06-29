@@ -2,11 +2,15 @@
 
 A tool for viewing your Minecraft worlds from within Emacs using [Amidst](https://github.com/toolbox4minecraft/amidst).
 
-![mc-biome-viewer example](https://user-images.githubusercontent.com/17688577/76894381-f21ac080-6885-11ea-8268-0d4f4cd329df.png)
+RThe package currently supports reading a Minecraft world from a save file (```mc-biome-viewer-view-save```), and from a seed (```mc-biome-viewer-view-seed```).
+
+![mc-biome-viewer example](https://user-images.githubusercontent.com/17688577/86047700-34d46300-ba47-11ea-9a2a-f5fcef9f70f2.png)
 
 Each character in the grid corresponds to one [chunk](https://minecraft.gamepedia.com/Chunk).
 
 ## Keys
+
+Once you have loaded a world, navigating through it is easy:
 
 | Key | Command                             | Description                                        |
 |-----|-------------------------------------|----------------------------------------------------|
@@ -27,7 +31,7 @@ The easiest way is with ![quelpa-use-package](https://github.com/quelpa/quelpa-u
 ```lisp
 (use-package mc-biome-viewer
     :ensure nil
-    :quelpa (mc-biome-viewer :fetcher github :repo "LaurenceWarne/mc-biome-viewer")
+    :quelpa (mc-biome-viewer :fetcher github :repo "LaurenceWarne/mc-biome-viewer" :stable t)
     ;; Example configuration
     :config
     ;; Note you must have a Minecraft launcher profile which uses this version!
