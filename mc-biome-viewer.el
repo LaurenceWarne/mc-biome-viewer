@@ -6,7 +6,7 @@
 ;; Maintainer: Laurence Warne
 ;; Version: 0.1
 ;; Keywords: games
-;; URL: https://github.com/
+;; URL: https://github.com/LaurenceWarne/mc-biome-viewer
 ;; Package-Requires: ((emacs "26") (dash "2.17.0") (cl-lib "0.3") (request "0.3.2") (ht "2.2") (f "0.2.0"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -24,7 +24,7 @@
 
 ;;; Commentary:
 ;;
-;; mc-biome-viewer shows information about chunks in a minecraft world in an
+;; mc-biome-viewer shows chunk information from a Minecraft world in a delightful
 ;; ascii format from within an Emacs buffer.  Worlds can be sourced either from
 ;; a seed or save directory.
 
