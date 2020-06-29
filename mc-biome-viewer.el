@@ -423,7 +423,7 @@
   (mc-biome-viewer--draw-buffer))
 
 (cl-defun mc-biome-viewer--draw-label (&key delete (position (mc-biome-viewer--get-biome-coord-at-cursor)))
-  "Draw information about the biome at the cursor or a specified point."
+  "Draw information about the biome at buffer position POSITION, when DELETE is non-nil remove any text following the label (e.g. a previous label)"
   (save-excursion
     (let* ((biome (ht-get mc-biome-viewer--chunk-cache position))
 	   (inhibit-read-only t)

@@ -2,7 +2,7 @@
 
 A tool for viewing your Minecraft worlds from within Emacs using [Amidst](https://github.com/toolbox4minecraft/amidst).
 
-RThe package currently supports reading a Minecraft world from a save file (```mc-biome-viewer-view-save```), and from a seed (```mc-biome-viewer-view-seed```).
+The package currently supports reading a Minecraft world from a save file (```mc-biome-viewer-view-save```), and from a seed (```mc-biome-viewer-view-seed```).
 
 ![mc-biome-viewer example](https://user-images.githubusercontent.com/17688577/86047700-34d46300-ba47-11ea-9a2a-f5fcef9f70f2.png)
 
