@@ -51,8 +51,9 @@
   :group 'mc-biome-viewer
   :type 'integer)
 
+;; Note this must reference a Minecraft version, NOT a launcher profile string.
 (defcustom mc-biome-viewer-default-version "1.15.1"
-  "The default minecraft launcher profile to use."
+  "The default minecraft version to use.  Note you must have a launcher profile in your .minecraft directory which uses this version."
   :group 'mc-biome-viewer
   :type 'string)
 
@@ -149,7 +150,7 @@
                                   "the void" ?\s
                                   "warm deep ocean" ?O
                                   "warm ocean" ?o))
-    "A mapping from Minecraft biomes to characters used to represent them in the grid."
+  "A mapping from Minecraft biomes to characters used to represent them in the grid."
   :group 'mc-biome-viewer
   :type 'hash-table)
 
@@ -230,12 +231,12 @@
                                  "the void" (:foreground "white")
                                  "warm deep ocean" (:foreground "cyan")
                                  "warm ocean" (:foreground "cyan")))
-   "A hash table mapping biome names to faces to be applied to them on the grid. Specifically, values in this hash can be any valid value for the face property described in https://www.gnu.org/software/emacs/manual/html_node/elisp/Overlay-Properties.html#Overlay-Properties"
+  "A hash table mapping biome names to faces to be applied to their character representations on the mc-biome-viewer grid.  Specifically, values in this hash table can be any valid value for the face property described in https://www.gnu.org/software/emacs/manual/html_node/elisp/Overlay-Properties.html#Overlay-Properties"
   :group 'mc-biome-viewer
   :type 'hash-table)
 
 (defcustom mc-biome-viewer-offset-label t
-  "If non-nil offset the label so that it's inline with the column offset of the camera."
+  "If non-nil offset the label so that it's inline with the column offset of the grid."
   :group 'mc-biome-viewer
   :type 'boolean)
 
@@ -597,7 +598,7 @@
 
 ;;;###autoload
 (defun mc-biome-viewer-view-save (save)
-  "Show the local Minecraft world at the directory specified by SAVE.  An example directory would be ~/.minecraft/my-profile/saves/my-world."
+  "Show the local Minecraft world at the directory specified by SAVE.  An example directory would be `~/.minecraft/my-profile/saves/my-world.'"
   (interactive "DSave directory: ")
   (message "Starting server...")
   (mc-biome-viewer--start-server)
