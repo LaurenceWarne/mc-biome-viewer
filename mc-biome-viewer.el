@@ -52,7 +52,7 @@
   :type 'integer)
 
 ;; Note this must reference a Minecraft version, NOT a launcher profile string.
-(defcustom mc-biome-viewer-default-version "1.15.1"
+(defcustom mc-biome-viewer-default-version "1.16.1"
   "The default minecraft version to use.  Note you must have a launcher profile in your .minecraft directory which uses this version."
   :group 'mc-biome-viewer
   :type 'string)
@@ -245,7 +245,7 @@
 
 (defvar mc-biome-viewer--server-url "https://github.com/LaurenceWarne/mc-biome-map-server/releases/download/")
 
-(defvar mc-biome-viewer--server-version "v0.1")
+(defvar mc-biome-viewer--server-version "v0.2")
 
 (defvar mc-biome-viewer--jar-name "mc-biome-map-server-all")
 
@@ -314,15 +314,18 @@
 		 (concat mc-biome-viewer--server-directory "/"
 			 (mc-biome-viewer--get-full-jar-name)) t))
 
-(defun mc-biome-viewer--start-server ()
-  "Start a mc-biome-viewer server unless one has already started."
+(defun mc-biome-viewer--start-server (&optional verbose)
+  "Start a mc-biome-viewer server unless one has already started.
+If VERBOSE is non-nil message additional information."
   (unless mc-biome-viewer--server-started
     (let ((server-location (concat mc-biome-viewer--server-directory "/"
 				  (mc-biome-viewer--get-full-jar-name))))
       (when (not (file-exists-p server-location))
 	(f-delete mc-biome-viewer--server-directory t)  ; Remove old versions if needed
 	(f-mkdir mc-biome-viewer--server-directory)
-	(mc-biome-viewer--download-server))
+	(when verbose (message "Downloading most recent version of mc-biome-viewer server..."))
+	(mc-biome-viewer--download-server)
+	(when verbose (message "Completed download, starting server...")))
       (start-process-shell-command "mc-biome-viewer-server" nil
 		     (concat "java -jar " server-location))
       (setq mc-biome-viewer--server-started t))))
@@ -587,8 +590,8 @@
 (defun mc-biome-viewer-view-seed (seed)
   "Show the Minecraft world with the seed specified by SEED.  The version used by the profile mc-biome-viewer-default-version will be used to generate the world from the seed."
   (interactive "sSeed: ")
-  (message "Starting server...")
-  (mc-biome-viewer--start-server)
+  (message "Initializing server...")
+  (mc-biome-viewer--start-server t)
   (mc-biome-viewer--init-buffer)
   (setq mc-biome-viewer--seed seed)
   (message "Contacting server...")
@@ -600,7 +603,7 @@
 (defun mc-biome-viewer-view-save (save)
   "Show the local Minecraft world at the directory specified by SAVE.  An example directory would be `~/.minecraft/my-profile/saves/my-world.'"
   (interactive "DSave directory: ")
-  (message "Starting server...")
+  (message "Initializing server...")
   (mc-biome-viewer--start-server)
   (mc-biome-viewer--init-buffer)
   (setq mc-biome-viewer--save (expand-file-name save))
