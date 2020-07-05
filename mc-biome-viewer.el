@@ -74,6 +74,7 @@
   :group 'mc-biome-viewer
   :type 'boolean)
 
+;; Source https://github.com/toolbox4minecraft/amidst/blob/v4.5-beta3/src/main/java/amidst/mojangapi/world/versionfeatures/DefaultBiomes.java
 (defcustom mc-biome-viewer-biome-to-char-map
   '#s(hash-table test equal data ("bamboo jungle hills" ?Y
                                   "bamboo jungle" ?Y
@@ -149,12 +150,66 @@
                                   "the end" ?I
                                   "the void" ?\s
                                   "warm deep ocean" ?O
-                                  "warm ocean" ?o))
+                                  "warm ocean" ?o
+
+				  ;; New biomes
+				  "mountains" ?▲
+				  "swamp" ?%
+				  "snowy tundra" ?❆
+				  "snowy mountains" ?▲
+				  "mushroom fields" ?M
+				  "mushroom field shore" ?M
+				  "wooded hills" ?△
+				  "mountain edge" ?\
+				  "stone shore" ?.
+				  "snowy beach" ?.
+				  "dark forest" ?T
+				  "snowy taiga" ?‡
+				  "snowy taiga hills" ?‡
+				  "giant tree taiga" ?&
+				  "giant tree taiga hills" ?&
+				  "wooded mountains" ?▲
+				  "badlands" ?#
+				  "wooded badlands plateau" ?#
+				  "badlands plateau" ?#
+				  "small end islands" ?▢
+				  "end midlands" ?▢
+				  "end highlands" ?▢
+				  "end barrens" ?▢
+				  "deep warm ocean" ?O
+				  "deep lukewarm ocean" ?O
+				  "deep cold ocean" ?O
+				  "deep frozen ocean" ?O
+				  "desert lakes" ?o
+				  "gravelly mountains" ?▲
+				  "taiga mountains" ?▲
+				  "swamp hills" ?△
+				  "ice spikes" ?|
+				  "modified jungle" ?J
+				  "modified jungle edge" ?J
+				  "tall birch forest" ?b
+				  "tall birch hills" ?b
+				  "dark forest hills" ?T
+				  "snowy taiga mountains" ?▲
+				  "giant spruce taiga" ?&
+				  "giant spruce taiga hills" ?&
+				  "gravelly mountains+" ?▲
+				  "shattered savanna" ?+
+				  "shattered savanna plateau" ?+
+				  "eroded badlands" ?#
+				  "modified wooded badlands plateau" ?#
+				  "modified badlands plateau" ?#
+				  "bamboo jungle" ?Y
+				  "bamboo jungle hills" ?Y
+				  "nether wastes" ?H
+				  "soul sand valley" ?U
+				  "crimson forest" ?C
+				  "warped forest" ?W
+				  "basalt deltas" ?B))
   "A mapping from Minecraft biomes to characters used to represent them in the grid."
   :group 'mc-biome-viewer
   :type 'hash-table)
 
-;; Source https://github.com/toolbox4minecraft/amidst/blob/f0229b840b8a9a47d60b558604df45b753b1387e/src/main/java/amidst/mojangapi/world/biome/Biome.java
 (defcustom mc-biome-viewer-biome-to-face-map
   #s(hash-table test equal data ("bamboo jungle hills" (:foreground "spring green")
                                  "bamboo jungle" (:foreground "spring green")
@@ -230,7 +285,62 @@
                                  "the end" (:foreground "white")
                                  "the void" (:foreground "white")
                                  "warm deep ocean" (:foreground "cyan")
-                                 "warm ocean" (:foreground "cyan")))
+                                 "warm ocean" (:foreground "cyan")
+
+				 ;; New biomes
+				 "mountains" (:foreground "white")
+				 "swamp" (:foreground "brown")
+				 "snowy tundra" (:foreground "white")
+				 "snowy mountains" (:foreground "white")
+				 "mushroom fields" (:foreground "pink")
+				 "mushroom field shore" (:foreground "pink")
+				 "wooded hills" (:foreground "brown")
+				 "mountain edge" (:foreground "white")
+				 "stone shore" (:foreground "grey")
+				 "snowy beach" (:foreground "white")
+				 "dark forest" (:foreground "green")
+				 "snowy taiga" (:foreground "white")
+				 "snowy taiga hills" (:foreground "white")
+				 "giant tree taiga" (:foreground "olive")
+				 "giant tree taiga hills" (:foreground "olive")
+				 "wooded mountains" (:foreground "white")
+				 "badlands" (:foreground "red")
+				 "wooded badlands plateau" (:foreground "red")
+				 "badlands plateau" (:foreground "red")
+				 "small end islands" (:foreground "white")
+				 "end midlands" (:foreground "white")
+				 "end highlands" (:foreground "white")
+				 "end barrens" (:foreground "white")
+				 "deep warm ocean" (:foreground "cyan")
+				 "deep lukewarm ocean" (:foreground "cyan")
+				 "deep cold ocean" (:foreground "blue")
+				 "deep frozen ocean" (:foreground "white")
+				 "desert lakes" (:foreground "blue")
+				 "gravelly mountains" (:foreground "grey")
+				 "taiga mountains" (:foreground "dark green")
+				 "swamp hills" (:foreground "brown")
+				 "ice spikes" (:foreground "violet")
+				 "modified jungle" (:foreground "spring green")
+				 "modified jungle edge" (:foreground "spring green")
+				 "tall birch forest" (:foreground "lawn green")
+				 "tall birch hills" (:foreground "lawn green")
+				 "dark forest hills" (:foreground "green")
+				 "snowy taiga mountains" (:foreground "white")
+				 "giant spruce taiga" (:foreground "olive")
+				 "giant spruce taiga hills" (:foreground "olive")
+				 "gravelly mountains+" (:foreground "grey")
+				 "shattered savanna" (:foreground "orange")
+				 "shattered savanna plateau" (:foreground "orange")
+				 "eroded badlands" (:foreground "red")
+				 "modified wooded badlands plateau" (:foreground "red")
+				 "modified badlands plateau" (:foreground "red")
+				 "bamboo jungle" (:foreground "spring green")
+				 "bamboo jungle hills" (:foreground "spring green")
+				 "nether wastes" (:foreground "red")
+				 "soul sand valley" (:foreground "dark brown")
+				 "crimson forest" (:foreground "red")
+				 "warped forest" (:foreground "blue")
+				 "basalt deltas" (:foreground "black")))
   "A hash table mapping biome names to faces to be applied to their character representations on the mc-biome-viewer grid.  Specifically, values in this hash table can be any valid value for the face property described in https://www.gnu.org/software/emacs/manual/html_node/elisp/Overlay-Properties.html#Overlay-Properties"
   :group 'mc-biome-viewer
   :type 'hash-table)
