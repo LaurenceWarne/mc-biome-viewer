@@ -1,8 +1,10 @@
-# Emacs Biome Viewer
+# Emacs Minecraft Biome Viewer
 
 A tool for viewing your Minecraft worlds from within Emacs using [Amidst](https://github.com/toolbox4minecraft/amidst).
 
 The package currently supports reading a Minecraft world from a save file (```mc-biome-viewer-view-save```), and from a seed (```mc-biome-viewer-view-seed```).
+
+Minecraft versions from 1.0 to 1.16.1 are currently supported (but you *must* have a Minecraft launcher profile which uses this version).
 
 ![mc-biome-viewer example](https://user-images.githubusercontent.com/17688577/86047700-34d46300-ba47-11ea-9a2a-f5fcef9f70f2.png)
 
