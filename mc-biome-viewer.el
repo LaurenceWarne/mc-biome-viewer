@@ -152,60 +152,60 @@
                                   "warm deep ocean" ?O
                                   "warm ocean" ?o
 
-				  ;; New biomes
-				  "mountains" ?▲
-				  "swamp" ?%
-				  "snowy tundra" ?❆
-				  "snowy mountains" ?▲
-				  "mushroom fields" ?M
-				  "mushroom field shore" ?M
-				  "wooded hills" ?△
-				  "mountain edge" ?\
-				  "stone shore" ?.
-				  "snowy beach" ?.
-				  "dark forest" ?T
-				  "snowy taiga" ?‡
-				  "snowy taiga hills" ?‡
-				  "giant tree taiga" ?&
-				  "giant tree taiga hills" ?&
-				  "wooded mountains" ?▲
-				  "badlands" ?#
-				  "wooded badlands plateau" ?#
-				  "badlands plateau" ?#
-				  "small end islands" ?▢
-				  "end midlands" ?▢
-				  "end highlands" ?▢
-				  "end barrens" ?▢
-				  "deep warm ocean" ?O
-				  "deep lukewarm ocean" ?O
-				  "deep cold ocean" ?O
-				  "deep frozen ocean" ?O
-				  "desert lakes" ?o
-				  "gravelly mountains" ?▲
-				  "taiga mountains" ?▲
-				  "swamp hills" ?△
-				  "ice spikes" ?|
-				  "modified jungle" ?J
-				  "modified jungle edge" ?J
-				  "tall birch forest" ?b
-				  "tall birch hills" ?b
-				  "dark forest hills" ?T
-				  "snowy taiga mountains" ?▲
-				  "giant spruce taiga" ?&
-				  "giant spruce taiga hills" ?&
-				  "gravelly mountains+" ?▲
-				  "shattered savanna" ?+
-				  "shattered savanna plateau" ?+
-				  "eroded badlands" ?#
-				  "modified wooded badlands plateau" ?#
-				  "modified badlands plateau" ?#
-				  "bamboo jungle" ?Y
-				  "bamboo jungle hills" ?Y
-				  "nether wastes" ?H
-				  "soul sand valley" ?U
-				  "crimson forest" ?C
-				  "warped forest" ?W
-				  "basalt deltas" ?B))
+                                  ;; New biomes
+                                  "mountains" ?▲
+                                  "swamp" ?%
+                                  "snowy tundra" ?❆
+                                  "snowy mountains" ?▲
+                                  "mushroom fields" ?M
+                                  "mushroom field shore" ?M
+                                  "wooded hills" ?△
+                                  "mountain edge" ?\
+                                  "stone shore" ?.
+                                  "snowy beach" ?.
+                                  "dark forest" ?T
+                                  "snowy taiga" ?‡
+                                  "snowy taiga hills" ?‡
+                                  "giant tree taiga" ?&
+                                  "giant tree taiga hills" ?&
+                                  "wooded mountains" ?▲
+                                  "badlands" ?#
+                                  "wooded badlands plateau" ?#
+                                  "badlands plateau" ?#
+                                  "small end islands" ?▢
+                                  "end midlands" ?▢
+                                  "end highlands" ?▢
+                                  "end barrens" ?▢
+                                  "deep warm ocean" ?O
+                                  "deep lukewarm ocean" ?O
+                                  "deep cold ocean" ?O
+                                  "deep frozen ocean" ?O
+                                  "desert lakes" ?o
+                                  "gravelly mountains" ?▲
+                                  "taiga mountains" ?▲
+                                  "swamp hills" ?△
+                                  "ice spikes" ?|
+                                  "modified jungle" ?J
+                                  "modified jungle edge" ?J
+                                  "tall birch forest" ?b
+                                  "tall birch hills" ?b
+                                  "dark forest hills" ?T
+                                  "snowy taiga mountains" ?▲
+                                  "giant spruce taiga" ?&
+                                  "giant spruce taiga hills" ?&
+                                  "gravelly mountains+" ?▲
+                                  "shattered savanna" ?+
+                                  "shattered savanna plateau" ?+
+                                  "eroded badlands" ?#
+                                  "modified wooded badlands plateau" ?#
+                                  "modified badlands plateau" ?#
+                                  "bamboo jungle" ?Y
+                                  "bamboo jungle hills" ?Y
+                                  "nether wastes" ?H
+                                  "soul sand valley" ?U
+                                  "crimson forest" ?C
+                                  "warped forest" ?W
+                                  "basalt deltas" ?B))
   "A mapping from Minecraft biomes to characters used to represent them in the grid."
   :group 'mc-biome-viewer
   :type 'hash-table)
@@ -287,60 +287,60 @@
                                  "warm deep ocean" (:foreground "cyan")
                                  "warm ocean" (:foreground "cyan")
 
-				 ;; New biomes
-				 "mountains" (:foreground "white")
-				 "swamp" (:foreground "brown")
-				 "snowy tundra" (:foreground "white")
-				 "snowy mountains" (:foreground "white")
-				 "mushroom fields" (:foreground "pink")
-				 "mushroom field shore" (:foreground "pink")
-				 "wooded hills" (:foreground "brown")
-				 "mountain edge" (:foreground "white")
-				 "stone shore" (:foreground "grey")
-				 "snowy beach" (:foreground "white")
-				 "dark forest" (:foreground "green")
-				 "snowy taiga" (:foreground "white")
-				 "snowy taiga hills" (:foreground "white")
-				 "giant tree taiga" (:foreground "olive")
-				 "giant tree taiga hills" (:foreground "olive")
-				 "wooded mountains" (:foreground "white")
-				 "badlands" (:foreground "red")
-				 "wooded badlands plateau" (:foreground "red")
-				 "badlands plateau" (:foreground "red")
-				 "small end islands" (:foreground "white")
-				 "end midlands" (:foreground "white")
-				 "end highlands" (:foreground "white")
-				 "end barrens" (:foreground "white")
-				 "deep warm ocean" (:foreground "cyan")
-				 "deep lukewarm ocean" (:foreground "cyan")
-				 "deep cold ocean" (:foreground "blue")
-				 "deep frozen ocean" (:foreground "white")
-				 "desert lakes" (:foreground "blue")
-				 "gravelly mountains" (:foreground "grey")
-				 "taiga mountains" (:foreground "dark green")
-				 "swamp hills" (:foreground "brown")
-				 "ice spikes" (:foreground "violet")
-				 "modified jungle" (:foreground "spring green")
-				 "modified jungle edge" (:foreground "spring green")
-				 "tall birch forest" (:foreground "lawn green")
-				 "tall birch hills" (:foreground "lawn green")
-				 "dark forest hills" (:foreground "green")
-				 "snowy taiga mountains" (:foreground "white")
-				 "giant spruce taiga" (:foreground "olive")
-				 "giant spruce taiga hills" (:foreground "olive")
-				 "gravelly mountains+" (:foreground "grey")
-				 "shattered savanna" (:foreground "orange")
-				 "shattered savanna plateau" (:foreground "orange")
-				 "eroded badlands" (:foreground "red")
-				 "modified wooded badlands plateau" (:foreground "red")
-				 "modified badlands plateau" (:foreground "red")
-				 "bamboo jungle" (:foreground "spring green")
-				 "bamboo jungle hills" (:foreground "spring green")
-				 "nether wastes" (:foreground "red")
-				 "soul sand valley" (:foreground "dark brown")
-				 "crimson forest" (:foreground "red")
-				 "warped forest" (:foreground "blue")
-				 "basalt deltas" (:foreground "black")))
+                                 ;; New biomes
+                                 "mountains" (:foreground "white")
+                                 "swamp" (:foreground "brown")
+                                 "snowy tundra" (:foreground "white")
+                                 "snowy mountains" (:foreground "white")
+                                 "mushroom fields" (:foreground "pink")
+                                 "mushroom field shore" (:foreground "pink")
+                                 "wooded hills" (:foreground "brown")
+                                 "mountain edge" (:foreground "white")
+                                 "stone shore" (:foreground "grey")
+                                 "snowy beach" (:foreground "white")
+                                 "dark forest" (:foreground "green")
+                                 "snowy taiga" (:foreground "white")
+                                 "snowy taiga hills" (:foreground "white")
+                                 "giant tree taiga" (:foreground "olive")
+                                 "giant tree taiga hills" (:foreground "olive")
+                                 "wooded mountains" (:foreground "white")
+                                 "badlands" (:foreground "red")
+                                 "wooded badlands plateau" (:foreground "red")
+                                 "badlands plateau" (:foreground "red")
+                                 "small end islands" (:foreground "white")
+                                 "end midlands" (:foreground "white")
+                                 "end highlands" (:foreground "white")
+                                 "end barrens" (:foreground "white")
+                                 "deep warm ocean" (:foreground "cyan")
+                                 "deep lukewarm ocean" (:foreground "cyan")
+                                 "deep cold ocean" (:foreground "blue")
+                                 "deep frozen ocean" (:foreground "white")
+                                 "desert lakes" (:foreground "blue")
+                                 "gravelly mountains" (:foreground "grey")
+                                 "taiga mountains" (:foreground "dark green")
+                                 "swamp hills" (:foreground "brown")
+                                 "ice spikes" (:foreground "violet")
+                                 "modified jungle" (:foreground "spring green")
+                                 "modified jungle edge" (:foreground "spring green")
+                                 "tall birch forest" (:foreground "lawn green")
+                                 "tall birch hills" (:foreground "lawn green")
+                                 "dark forest hills" (:foreground "green")
+                                 "snowy taiga mountains" (:foreground "white")
+                                 "giant spruce taiga" (:foreground "olive")
+                                 "giant spruce taiga hills" (:foreground "olive")
+                                 "gravelly mountains+" (:foreground "grey")
+                                 "shattered savanna" (:foreground "orange")
+                                 "shattered savanna plateau" (:foreground "orange")
+                                 "eroded badlands" (:foreground "red")
+                                 "modified wooded badlands plateau" (:foreground "red")
+                                 "modified badlands plateau" (:foreground "red")
+                                 "bamboo jungle" (:foreground "spring green")
+                                 "bamboo jungle hills" (:foreground "spring green")
+                                 "nether wastes" (:foreground "red")
+                                 "soul sand valley" (:foreground "dark brown")
+                                 "crimson forest" (:foreground "red")
+                                 "warped forest" (:foreground "blue")
+                                 "basalt deltas" (:foreground "black")))
   "A hash table mapping biome names to faces to be applied to their character representations on the mc-biome-viewer grid.  Specifically, values in this hash table can be any valid value for the face property described in https://www.gnu.org/software/emacs/manual/html_node/elisp/Overlay-Properties.html#Overlay-Properties"
   :group 'mc-biome-viewer
   :type 'hash-table)
@@ -400,7 +400,7 @@
   (set (make-local-variable 'post-command-hook) nil)
   (set (make-local-variable 'pre-command-hook) nil)
   (add-hook 'post-command-hook
-	    (lambda () (when mc-biome-viewer-show-label (mc-biome-viewer--draw-label :delete t))) nil t)
+            (lambda () (when mc-biome-viewer-show-label (mc-biome-viewer--draw-label :delete t))) nil t)
   (buffer-disable-undo))
 
 ;; Internal functions
@@ -408,7 +408,7 @@
 (defun mc-biome-viewer--get-full-jar-name ()
   "Get the full name of the server file, including the version and file extension."
   (concat mc-biome-viewer--jar-name "-"
-	  mc-biome-viewer--server-version ".jar"))
+          mc-biome-viewer--server-version ".jar"))
 
 (defun mc-biome-viewer--get-true-url (gh-url)
   "Get the raw url from the GH release file at the url GH-URL."
@@ -418,50 +418,50 @@
 (defun mc-biome-viewer--download-server ()
   "Download the mc biome viewer server jar file, replacing it if it alread exists."
   (url-copy-file (mc-biome-viewer--get-true-url
-		  (concat mc-biome-viewer--server-url
-			  mc-biome-viewer--server-version "/"
-			  "mc-biome-map-server-all.jar"))
-		 (concat mc-biome-viewer--server-directory "/"
-			 (mc-biome-viewer--get-full-jar-name)) t))
+                  (concat mc-biome-viewer--server-url
+                          mc-biome-viewer--server-version "/"
+                          "mc-biome-map-server-all.jar"))
+                 (concat mc-biome-viewer--server-directory "/"
+                         (mc-biome-viewer--get-full-jar-name)) t))
 
 (defun mc-biome-viewer--start-server (&optional verbose)
   "Start a mc-biome-viewer server unless one has already started.
 If VERBOSE is non-nil message additional information."
   (unless mc-biome-viewer--server-started
     (let ((server-location (concat mc-biome-viewer--server-directory "/"
-				  (mc-biome-viewer--get-full-jar-name))))
+                                   (mc-biome-viewer--get-full-jar-name))))
       (when (not (file-exists-p server-location))
-	(f-delete mc-biome-viewer--server-directory t)  ; Remove old versions if needed
-	(f-mkdir mc-biome-viewer--server-directory)
-	(when verbose (message "Downloading most recent version of mc-biome-viewer server..."))
-	(mc-biome-viewer--download-server)
-	(when verbose (message "Completed download, starting server...")))
+        (f-delete mc-biome-viewer--server-directory t)  ; Remove old versions if needed
+        (f-mkdir mc-biome-viewer--server-directory)
+        (when verbose (message "Downloading most recent version of mc-biome-viewer server..."))
+        (mc-biome-viewer--download-server)
+        (when verbose (message "Completed download, starting server...")))
       (start-process-shell-command "mc-biome-viewer-server" nil
-		     (concat "java -jar " server-location))
+                                   (concat "java -jar " server-location))
       (setq mc-biome-viewer--server-started t))))
 
 (defun mc-biome-viewer--get-biome-coord-at-cursor ()
   "Return the biome coordinate at the cursor, or nil if the cursor does not lie on the grid."
   (let* ((row (line-number-at-pos))
-	 (column (current-column))
-	 (camera-row (- row mc-biome-viewer--y-offset))
-	 (camera-y (- mc-biome-viewer-row-chunks-in-camera camera-row))
-	 (camera-col (- column mc-biome-viewer--x-offset)))
+         (column (current-column))
+         (camera-row (- row mc-biome-viewer--y-offset))
+         (camera-y (- mc-biome-viewer-row-chunks-in-camera camera-row))
+         (camera-col (- column mc-biome-viewer--x-offset)))
     (if (and (>= camera-y 0) (>= camera-col 0)
-	     (< camera-y mc-biome-viewer-row-chunks-in-camera)
-	     (< camera-col mc-biome-viewer-column-chunks-in-camera))
-	(vector (+ camera-col mc-biome-viewer--camera-origin-x)
-		(+ camera-y mc-biome-viewer--camera-origin-y))
+             (< camera-y mc-biome-viewer-row-chunks-in-camera)
+             (< camera-col mc-biome-viewer-column-chunks-in-camera))
+        (vector (+ camera-col mc-biome-viewer--camera-origin-x)
+                (+ camera-y mc-biome-viewer--camera-origin-y))
       nil)))
 
 (defun mc-biome-viewer--init-offsets ()
   "Initialize the offsets for the current mc-biome-viewer buffer."
   (let ((width (window-text-width))
-	(height (window-text-height)))
+        (height (window-text-height)))
     (setq mc-biome-viewer--x-offset
-	  (max 0 (- (/ width 2) (/ mc-biome-viewer-column-chunks-in-camera 2))))
+          (max 0 (- (/ width 2) (/ mc-biome-viewer-column-chunks-in-camera 2))))
     (setq mc-biome-viewer--y-offset
-	  (max 0 (- (/ height 2) (/ mc-biome-viewer-row-chunks-in-camera 2))))))
+          (max 0 (- (/ height 2) (/ mc-biome-viewer-row-chunks-in-camera 2))))))
 
 (defun mc-biome-viewer--draw-biome (biome-str unknown-str)
   "Draw the biome specified by BIOME-STR at the current cursor position, else draw UNKNOWN-STR."
@@ -470,63 +470,63 @@ If VERBOSE is non-nil message additional information."
     (insert unknown-str))
   ;; Add overlay
   (when (and mc-biome-viewer-colour-biomes
-	     (ht-contains? mc-biome-viewer-biome-to-face-map biome-str))
-      (let ((overlay (make-overlay (1- (point)) (point))))
-	(overlay-put overlay 'face
-		     (ht-get mc-biome-viewer-biome-to-face-map biome-str)))))
+             (ht-contains? mc-biome-viewer-biome-to-face-map biome-str))
+    (let ((overlay (make-overlay (1- (point)) (point))))
+      (overlay-put overlay 'face
+                   (ht-get mc-biome-viewer-biome-to-face-map biome-str)))))
 
 (defun mc-biome-viewer--create-line-overlay (start end face)
   "Create an overlay from START to END of FACE."
   (let ((overlay (make-overlay start end)))
-	  (overlay-put overlay 'face face)))
+    (overlay-put overlay 'face face)))
 
 (cl-defun mc-biome-viewer--draw-row (start-x y &key (not-found-char ??))
   "Draw a row at the current cursor position starting with the biome at the biome coordinate (START-X, Y)."
   (let ((first-biome (ht-get mc-biome-viewer--chunk-cache (vector start-x y)
-			     not-found-char)))
+                             not-found-char)))
     (cl-do ((i (1+ start-x) (1+ i))
-	    (last-biome first-biome current-biome)
-	    (current-biome first-biome (ht-get mc-biome-viewer--chunk-cache
-					       (vector i y) not-found-char))
-	    (biome-run 0 (1+ biome-run)))
-	((> i (+ start-x mc-biome-viewer-column-chunks-in-camera)) nil)
+            (last-biome first-biome current-biome)
+            (current-biome first-biome (ht-get mc-biome-viewer--chunk-cache
+                                               (vector i y) not-found-char))
+            (biome-run 0 (1+ biome-run)))
+        ((> i (+ start-x mc-biome-viewer-column-chunks-in-camera)) nil)
       (when (not (equal current-biome last-biome))
-	(insert-char (ht-get mc-biome-viewer-biome-to-char-map last-biome not-found-char)
-		     biome-run)
-	(when mc-biome-viewer-colour-biomes
-	  (mc-biome-viewer--create-line-overlay
-	   (- (point) biome-run) (point)
-	   (ht-get mc-biome-viewer-biome-to-face-map last-biome nil)))
-	(setq biome-run 0))
+        (insert-char (ht-get mc-biome-viewer-biome-to-char-map last-biome not-found-char)
+                     biome-run)
+        (when mc-biome-viewer-colour-biomes
+          (mc-biome-viewer--create-line-overlay
+           (- (point) biome-run) (point)
+           (ht-get mc-biome-viewer-biome-to-face-map last-biome nil)))
+        (setq biome-run 0))
       (when (= i (+ start-x mc-biome-viewer-column-chunks-in-camera))
-	(insert-char (ht-get mc-biome-viewer-biome-to-char-map
-			     current-biome not-found-char)
-		     biome-run)
-	(when mc-biome-viewer-colour-biomes
-	  (mc-biome-viewer--create-line-overlay
-	   (- (point) biome-run) (point)
-	   (ht-get mc-biome-viewer-biome-to-face-map current-biome nil)))))))
+        (insert-char (ht-get mc-biome-viewer-biome-to-char-map
+                             current-biome not-found-char)
+                     biome-run)
+        (when mc-biome-viewer-colour-biomes
+          (mc-biome-viewer--create-line-overlay
+           (- (point) biome-run) (point)
+           (ht-get mc-biome-viewer-biome-to-face-map current-biome nil)))))))
 
 (defun mc-biome-viewer--draw-buffer (&optional not-found-char)
   "Draw biomes as text in the current buffer.  If a biome is not found insert NOT-FOUND-CHAR."
   (mc-biome-viewer--init-offsets)
   (let ((inhibit-read-only t)
-	(prev-point (point))
-	(prev-biome (mc-biome-viewer--get-biome-coord-at-cursor)))
+        (prev-point (point))
+        (prev-biome (mc-biome-viewer--get-biome-coord-at-cursor)))
     (erase-buffer)
     (remove-overlays)  ; Else causes huge lag
     (insert-char ?\n mc-biome-viewer--y-offset)
     (save-excursion
       (dotimes (i mc-biome-viewer-row-chunks-in-camera nil)
-	(insert-char ?\s mc-biome-viewer--x-offset)
-	(let* ((true-y (1- (+ mc-biome-viewer--camera-origin-y
-			      (- mc-biome-viewer-row-chunks-in-camera i)))))
-	    (mc-biome-viewer--draw-row mc-biome-viewer--camera-origin-x true-y))
-	(insert-char ?\n)))
+        (insert-char ?\s mc-biome-viewer--x-offset)
+        (let* ((true-y (1- (+ mc-biome-viewer--camera-origin-y
+                              (- mc-biome-viewer-row-chunks-in-camera i)))))
+          (mc-biome-viewer--draw-row mc-biome-viewer--camera-origin-x true-y))
+        (insert-char ?\n)))
     (if (> prev-point 1) (goto-char prev-point) (forward-char mc-biome-viewer--x-offset))
     (when mc-biome-viewer-show-label
       (save-excursion (goto-char (point-max)) (insert-char ?\n)
-		      (mc-biome-viewer--draw-label :position prev-biome)))))
+                      (mc-biome-viewer--draw-label :position prev-biome)))))
 
 (defun mc-biome-viewer--init-buffer ()
   "Setup a new buffer for viewing a mc world."
@@ -540,85 +540,85 @@ If VERBOSE is non-nil message additional information."
   "Draw information about the biome at buffer position POSITION, when DELETE is non-nil remove any text following the label (e.g. a previous label)"
   (save-excursion
     (let* ((biome (ht-get mc-biome-viewer--chunk-cache position))
-	   (inhibit-read-only t)
-	   (region-start (progn (goto-char (point-max)) (forward-line -1)
-				(line-beginning-position)))
-	   (region-end (progn (forward-line) (line-end-position))))
+           (inhibit-read-only t)
+           (region-start (progn (goto-char (point-max)) (forward-line -1)
+                                (line-beginning-position)))
+           (region-end (progn (forward-line) (line-end-position))))
       (remove-overlays region-start region-end)
       (when delete (delete-region region-start region-end))
       (when mc-biome-viewer-offset-label (insert-char ?\s mc-biome-viewer--x-offset))
       (insert "Biome: " (if biome biome "?") "\n")
       (when biome
-	(let ((overlay (make-overlay (- (point) (1+ (length biome))) (point))))
-	  (overlay-put overlay 'face (ht-get mc-biome-viewer-biome-to-face-map
-					     biome))))
+        (let ((overlay (make-overlay (- (point) (1+ (length biome))) (point))))
+          (overlay-put overlay 'face (ht-get mc-biome-viewer-biome-to-face-map
+                                             biome))))
       (when mc-biome-viewer-offset-label (insert-char ?\s mc-biome-viewer--x-offset))
       (insert "(x z): " (if position (format "%s" (--map (* mc-biome-viewer--chunk-size it) position)) "N/A")))))
 
 (cl-defun mc-biome-viewer--request-biomes-seed
     (seed chunk-start-x chunk-start-y chunk-end-x chunk-end-y
-	  &key (profile mc-biome-viewer-default-version)
-	  (error-checker #'mc-biome-viewer--error-check-xml)
-	  callback)
+          &key (profile mc-biome-viewer-default-version)
+          (error-checker #'mc-biome-viewer--error-check-xml)
+          callback)
   "Request chunks from the Minecraft world generated by SEED (using the specified PROFILE) in the integral square described by CHUNK-START-X, CHUNK-START-Y, CHUNK-END-X and CHUNK-END-Y (representing chunk coordinates) from a mc-biome-server.  If an error is detected (using ERROR CHECKER) with the returned data message this error, else call CALLBACK with the xml data."
   (request
    (concat "http://localhost:"
-	   (number-to-string mc-biome-viewer--server-port)
-	   "/biome/seed")
+           (number-to-string mc-biome-viewer--server-port)
+           "/biome/seed")
    :params `(("seed" . ,seed)
-	     ("chunkStartX" . ,chunk-start-x) ("chunkEndX" . ,chunk-end-x)
-	     ("chunkStartY" . ,chunk-start-y) ("chunkEndY" . ,chunk-end-y)
-	     ("profile" . ,(if profile profile mc-biome-viewer-default-version)))
+             ("chunkStartX" . ,chunk-start-x) ("chunkEndX" . ,chunk-end-x)
+             ("chunkStartY" . ,chunk-start-y) ("chunkEndY" . ,chunk-end-y)
+             ("profile" . ,(if profile profile mc-biome-viewer-default-version)))
    :parser (lambda () (libxml-parse-xml-region (point) (point-max)))
    :success (cl-function
-	     (lambda (&key data &allow-other-keys)
-	       (let ((error-string (funcall error-checker data)))
-		 (if error-string (message error-string)
-		   (when callback (funcall callback data))))))))
+             (lambda (&key data &allow-other-keys)
+               (let ((error-string (funcall error-checker data)))
+                 (if error-string (message error-string)
+                   (when callback (funcall callback data))))))))
 
 (cl-defun mc-biome-viewer--request-biomes-save
     (save chunk-start-x chunk-start-y chunk-end-x chunk-end-y
-	  &key (profile mc-biome-viewer-default-version)
-	  (error-checker #'mc-biome-viewer--error-check-xml)
-	  callback)
+          &key (profile mc-biome-viewer-default-version)
+          (error-checker #'mc-biome-viewer--error-check-xml)
+          callback)
   "Request chunks from the Minecraft world on local storage specified by SAVE (using the specified PROFILE) in the integral square described by CHUNK-START-X, CHUNK-START-Y, CHUNK-END-X and CHUNK-END-Y (representing chunk coordinates) from a mc-biome-server.  If an error is detected (using ERROR CHECKER) with the returned data message this error, else call CALLBACK with the xml data."
   (request
    (concat "http://localhost:"
-	   (number-to-string mc-biome-viewer--server-port)
-	   "/biome/save")
+           (number-to-string mc-biome-viewer--server-port)
+           "/biome/save")
    :params `(("save" . ,save)
-	     ("chunkStartX" . ,chunk-start-x) ("chunkEndX" . ,chunk-end-x)
-	     ("chunkStartY" . ,chunk-start-y) ("chunkEndY" . ,chunk-end-y)
-	     ("profile" . ,(if profile profile mc-biome-viewer-default-version)))
+             ("chunkStartX" . ,chunk-start-x) ("chunkEndX" . ,chunk-end-x)
+             ("chunkStartY" . ,chunk-start-y) ("chunkEndY" . ,chunk-end-y)
+             ("profile" . ,(if profile profile mc-biome-viewer-default-version)))
    :parser (lambda () (libxml-parse-xml-region (point) (point-max)))
    :success (cl-function
-	     (lambda (&key data &allow-other-keys)
-	       (let ((error-string (funcall error-checker data)))
-		 (if error-string (message error-string)
-		   (when callback (funcall callback data))))))))
+             (lambda (&key data &allow-other-keys)
+               (let ((error-string (funcall error-checker data)))
+                 (if error-string (message error-string)
+                   (when callback (funcall callback data))))))))
 
 (cl-defun mc-biome-viewer--update-biomes
     (&key (chunk-start-x mc-biome-viewer--camera-origin-x)
-	  (chunk-start-y mc-biome-viewer--camera-origin-y)
-	  (chunk-end-x (+ mc-biome-viewer--camera-origin-x
-			    mc-biome-viewer-column-chunks-in-camera))
-	  (chunk-end-y (+ mc-biome-viewer--camera-origin-y
-			    mc-biome-viewer-row-chunks-in-camera))
-	  (profile mc-biome-viewer-default-version)
-	  (error-checker #'mc-biome-viewer--error-check-xml)
-	  callback)
+          (chunk-start-y mc-biome-viewer--camera-origin-y)
+          (chunk-end-x (+ mc-biome-viewer--camera-origin-x
+                          mc-biome-viewer-column-chunks-in-camera))
+          (chunk-end-y (+ mc-biome-viewer--camera-origin-y
+                          mc-biome-viewer-row-chunks-in-camera))
+          (profile mc-biome-viewer-default-version)
+          (error-checker #'mc-biome-viewer--error-check-xml)
+          callback)
   "Request chunks from the Minecraft world shown in the current buffer in the integral square described by CHUNK-START-X, CHUNK-START-Y, CHUNK-END-X and CHUNK-END-Y (representing chunk coordinates) from a mc-biome-server.  If an error is detected (using ERROR CHECKER) with the returned data message this error, else call CALLBACK with the xml data."
   (if mc-biome-viewer--seed
       (mc-biome-viewer--request-biomes-seed mc-biome-viewer--seed
-					    chunk-start-x chunk-start-y
-					    chunk-end-x chunk-end-y
-					    :error-checker error-checker
-					    :profile profile :callback callback)
+                                            chunk-start-x chunk-start-y
+                                            chunk-end-x chunk-end-y
+                                            :error-checker error-checker
+                                            :profile profile :callback callback)
     (mc-biome-viewer--request-biomes-save mc-biome-viewer--save
-					  chunk-start-x chunk-start-y
-					  chunk-end-x chunk-end-y
-					  :error-checker error-checker
-					  :profile profile :callback callback)))
+                                          chunk-start-x chunk-start-y
+                                          chunk-end-x chunk-end-y
+                                          :error-checker error-checker
+                                          :profile profile :callback callback)))
 
 (defun mc-biome-viewer--error-check-xml (data)
   "If the passed xml data DATA is an error message, return the message, else return nil."
@@ -629,18 +629,18 @@ If VERBOSE is non-nil message additional information."
 (defun mc-biome-viewer--update-from-xml (data)
   "Update the chunk cache from XML DATA retrieved from a mc biome viewer server."
   (cl-loop for e in (cddr data) do
-	   (let ((x (car (last (caddr e))))
-		 (y (car (last (cadddr e))))
-		 (biome (downcase (car (last (car (last e)))))))
-	     (ht-set mc-biome-viewer--chunk-cache
-		     (vector (string-to-number x) (string-to-number y)) biome)))
+           (let ((x (car (last (caddr e))))
+                 (y (car (last (cadddr e))))
+                 (biome (downcase (car (last (car (last e)))))))
+             (ht-set mc-biome-viewer--chunk-cache
+                     (vector (string-to-number x) (string-to-number y)) biome)))
   (mc-biome-viewer--draw-buffer "?")
   )
 
 (cl-defun mc-biome-viewer--continual-call (fn &key (delay 0.5) (times 5))
   (cl-loop repeat times do
-    (sleep-for delay)
-    (funcall fn)))
+           (sleep-for delay)
+           (funcall fn)))
 
 ;; Interactive functions
 
@@ -650,9 +650,9 @@ If VERBOSE is non-nil message additional information."
   (interactive)
   (cl-incf mc-biome-viewer--camera-origin-x)
   (let ((start (+ mc-biome-viewer--camera-origin-x
-		  mc-biome-viewer-column-chunks-in-camera)))
+                  mc-biome-viewer-column-chunks-in-camera)))
     (mc-biome-viewer--update-biomes :chunk-start-x start :chunk-end-x (+ 2 start)
-				    :callback #'mc-biome-viewer--update-from-xml))
+                                    :callback #'mc-biome-viewer--update-from-xml))
   (mc-biome-viewer--draw-buffer))
 
 ;;;###autoload
@@ -662,7 +662,7 @@ If VERBOSE is non-nil message additional information."
   (cl-decf mc-biome-viewer--camera-origin-x)
   (let ((start mc-biome-viewer--camera-origin-x))
     (mc-biome-viewer--update-biomes :chunk-start-x (- start 2) :chunk-end-x start
-				    :callback #'mc-biome-viewer--update-from-xml))
+                                    :callback #'mc-biome-viewer--update-from-xml))
   (mc-biome-viewer--draw-buffer))
 
 ;;;###autoload
@@ -671,9 +671,9 @@ If VERBOSE is non-nil message additional information."
   (interactive)
   (cl-incf mc-biome-viewer--camera-origin-y)
   (let ((start (+ mc-biome-viewer--camera-origin-y
-		  mc-biome-viewer-row-chunks-in-camera)))
+                  mc-biome-viewer-row-chunks-in-camera)))
     (mc-biome-viewer--update-biomes :chunk-start-y start :chunk-end-y (+ 2 start)
-				    :callback #'mc-biome-viewer--update-from-xml))
+                                    :callback #'mc-biome-viewer--update-from-xml))
   (mc-biome-viewer--draw-buffer))
 
 ;;;###autoload
@@ -683,7 +683,7 @@ If VERBOSE is non-nil message additional information."
   (cl-decf mc-biome-viewer--camera-origin-y)
   (let ((start mc-biome-viewer--camera-origin-y))
     (mc-biome-viewer--update-biomes :chunk-start-y (- start 2) :chunk-end-y start
-				    :callback #'mc-biome-viewer--update-from-xml))
+                                    :callback #'mc-biome-viewer--update-from-xml))
   (mc-biome-viewer--draw-buffer))
 
 ;;;###autoload
@@ -691,9 +691,9 @@ If VERBOSE is non-nil message additional information."
   "Centre the camera at the specified world (X, Z) coordinate."
   (interactive "nX: \nnZ: ")
   (setq mc-biome-viewer--camera-origin-x
-	(- (/ x mc-biome-viewer--chunk-size) (/ mc-biome-viewer-column-chunks-in-camera 2)))
+        (- (/ x mc-biome-viewer--chunk-size) (/ mc-biome-viewer-column-chunks-in-camera 2)))
   (setq mc-biome-viewer--camera-origin-y
-	(- (/ z mc-biome-viewer--chunk-size) (/ mc-biome-viewer-row-chunks-in-camera 2)))
+        (- (/ z mc-biome-viewer--chunk-size) (/ mc-biome-viewer-row-chunks-in-camera 2)))
   (mc-biome-viewer--update-biomes :callback #'mc-biome-viewer--update-from-xml))
 
 ;;;###autoload
@@ -706,8 +706,8 @@ If VERBOSE is non-nil message additional information."
   (setq mc-biome-viewer--seed seed)
   (message "Contacting server...")
   (make-thread (lambda () (mc-biome-viewer--continual-call
-      (lambda () (mc-biome-viewer--update-biomes
-		  :callback #'mc-biome-viewer--update-from-xml))))))
+                           (lambda () (mc-biome-viewer--update-biomes
+                                       :callback #'mc-biome-viewer--update-from-xml))))))
 
 ;;;###autoload
 (defun mc-biome-viewer-view-save (save)
@@ -719,8 +719,8 @@ If VERBOSE is non-nil message additional information."
   (setq mc-biome-viewer--save (expand-file-name save))
   (message "contacting server...")
   (make-thread (lambda () (mc-biome-viewer--continual-call
-      (lambda () (mc-biome-viewer--update-biomes
-		  :callback #'mc-biome-viewer--update-from-xml))))))
+                           (lambda () (mc-biome-viewer--update-biomes
+                                       :callback #'mc-biome-viewer--update-from-xml))))))
 
 
 (provide 'mc-biome-viewer)
