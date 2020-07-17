@@ -4,7 +4,7 @@ A tool for viewing your Minecraft worlds from within Emacs using [Amidst](https:
 
 The package currently supports reading a Minecraft world from a save file (```mc-biome-viewer-view-save```), and from a seed (```mc-biome-viewer-view-seed```).
 
-Minecraft versions from 1.0 to 1.16.1 are currently supported (but you *must* have a Minecraft launcher profile which uses this version).
+Minecraft versions from 1.0 to 1.16.1 are currently supported (but you *must* have a Minecraft launcher profile which uses the version in question).
 
 ![mc-biome-viewer example](https://user-images.githubusercontent.com/17688577/86047700-34d46300-ba47-11ea-9a2a-f5fcef9f70f2.png)
 
@@ -43,3 +43,10 @@ The easiest way is with ![quelpa-use-package](https://github.com/quelpa/quelpa-u
 ```
 
 Java 8 is also required (along with a Minecraft installation).
+
+## Changelog
+
+### 0.2
+
+- Support for Minecraft 1.16.1
+- More feedback when downloading the mc-biome-server

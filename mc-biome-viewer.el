@@ -463,6 +463,28 @@ If VERBOSE is non-nil message additional information."
     (setq mc-biome-viewer--y-offset
           (max 0 (- (/ height 2) (/ mc-biome-viewer-row-chunks-in-camera 2))))))
 
+(defun mc-biome-viewer--slime-chunk-p (biome-x biome-z seed)
+  "Return t if the chunk in world SEED at (BIOME-X, BIOME-Z) is a slime chunk.
+
+The algorithm is:
+
+        Random rnd = new Random(
+                seed +
+                (int) (xPosition * xPosition * 0x4c1906) +
+                (int) (xPosition * 0x5ac0db) +
+                (int) (zPosition * zPosition) * 0x4307a7L +
+                (int) (zPosition * 0x5f24f) ^ 0x3ad8025fL
+        );
+
+        System.out.println(rnd.nextInt(10) == 0);"
+  (let ((random-seed (+ (string-to-number seed)
+                        (* biome-x biome-x 4987142)
+                        (* biome-x 5947611)
+                        (* biome-z biome-z 4392871)
+                        (logxor (* biome-z 389711) 987234911))))
+    (random (number-to-string random-seed))
+    (= (random 10) 0)))
+
 (defun mc-biome-viewer--draw-biome (biome-str unknown-str)
   "Draw the biome specified by BIOME-STR at the current cursor position, else draw UNKNOWN-STR."
   (if (ht-contains? mc-biome-viewer-biome-to-char-map biome-str)
