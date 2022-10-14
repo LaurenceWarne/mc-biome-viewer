@@ -160,7 +160,7 @@
                                   "mushroom fields" ?M
                                   "mushroom field shore" ?M
                                   "wooded hills" ?△
-                                  "mountain edge" ?\
+                                  "mountain edge" ?\\
                                   "stone shore" ?.
                                   "snowy beach" ?.
                                   "dark forest" ?T
